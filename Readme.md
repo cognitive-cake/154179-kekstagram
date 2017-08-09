@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Николай Черников](https://up.htmlacademy.ru/javascript/10/user/154179).
-* Наставник: `Неизвестно`.
+* Наставник: [Иван Горбунов](https://htmlacademy.ru/profile/id470365).
 
 ---
 
