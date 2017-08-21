@@ -6,7 +6,8 @@
     likesMin: 15,
     likesMax: 200,
     commentsMin: 1,
-    commentsMax: 2
+    commentsMax: 2,
+    photoForOverlayIndex: 0
   };
   var photosDescription = [
     // Пример объекта для данного массива
@@ -73,9 +74,18 @@
       }
       return fragment;
     }
+    // Вставка фотографии с данными в оверлей
+    function setPhotoToOverlay(obj) {
+      var photoData = obj;
+      galleryOverlay.querySelector('.gallery-overlay-image').setAttribute('src', photoData.url);
+      galleryOverlay.querySelector('.likes-count').textContent = photoData.likes;
+      galleryOverlay.querySelector('.comments-count').textContent = photoData.comments.length;
+    }
 
     createArrayOfPhotosDescriptions(photosDescription, taskParameters.photoCount);
     pictures.appendChild(createListOfPhotos(photosDescription));
     overlay.classList.add('hidden');
+    galleryOverlay.classList.remove('hidden');
+    setPhotoToOverlay(photosDescription[taskParameters.photoForOverlayIndex]);
   })();
 })();
