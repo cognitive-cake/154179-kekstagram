@@ -29,7 +29,7 @@
   window.pictures = (function () {
     var template = document.querySelector('#picture-template');
     var pictures = document.querySelector('.pictures');
-    var overlay = document.querySelector('.upload-overlay');
+    var uploadOverlay = document.querySelector('.upload-overlay');
     var galleryOverlay = document.querySelector('.gallery-overlay');
 
     // Создание описаний к фотографиям и добавление их в массив
@@ -84,7 +84,7 @@
 
     createArrayOfPhotosDescriptions(photosDescription, taskParameters.photoCount);
     pictures.appendChild(createListOfPhotos(photosDescription));
-    overlay.classList.add('hidden');
+    uploadOverlay.classList.add('hidden');
     galleryOverlay.classList.remove('hidden');
     setPhotoToOverlay(photosDescription[taskParameters.photoForOverlayIndex]);
   })();
