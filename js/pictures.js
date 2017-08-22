@@ -9,14 +9,7 @@
     commentsMax: 2,
     photoForOverlayIndex: 0
   };
-  var photosDescription = [
-    // Пример объекта для данного массива
-    // {
-    //   url: '',
-    //   likes: '',
-    //   comments: []
-    // }
-  ];
+
   var COMMENTS_TO_PHOTOS = [ // Неуверен, что стоит объявлять этот массив как константу. Пока что не понятно, когда объявлять константы, а когда переменные. Это ведь только для моего удобства?
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -28,29 +21,33 @@
 
   window.pictures = (function () {
     var template = document.querySelector('#picture-template');
-    var pictures = document.querySelector('.pictures');
+    var photoContainer = document.querySelector('.pictures');
     var uploadOverlay = document.querySelector('.upload-overlay');
     var galleryOverlay = document.querySelector('.gallery-overlay');
+    var photosDescription = createArrayOfPhotosDescriptions(taskParameters.photoCount);
+    var listOfPhotos = createListOfPhotos(photosDescription);
 
     // Создание описаний к фотографиям и добавление их в массив
-    function createArrayOfPhotosDescriptions(array, amount) {
+    function createArrayOfPhotosDescriptions(amount) {
+      var array = [];
       for (var i = 1; i <= amount; i++) {
-        createSinglePhotoDescription(array, i);
+        array.push(createSinglePhotoDescription(i));
       }
     }
     // Генерация единичного описания фотографии
-    function createSinglePhotoDescription(array, index) {
+    function createSinglePhotoDescription(index) {
+      var likesAmount = window.tools.getRandomRoundNumber(taskParameters.likesMin, taskParameters.likesMax);
       var newDescription = {
         url: 'photos/' + index + '.jpg',
-        likes: Math.round(window.tools.getRandomNumber(taskParameters.likesMin, taskParameters.likesMax)),
+        likes: likesAmount,
         comments: createCommentForPhoto()
       };
-      array.push(newDescription);
+      return newDescription;
     }
     // Создание массива с комментариями к фото
     function createCommentForPhoto() {
       var comments = [];
-      var amountOfComments = Math.round(window.tools.getRandomNumber(taskParameters.commentsMin, taskParameters.commentsMax));
+      var amountOfComments = window.tools.getRandomRoundNumber(taskParameters.commentsMin, taskParameters.commentsMax);
 
       for (var i = 0; i < amountOfComments; i++) {
         comments.push(window.tools.getRandomValueOfArray(COMMENTS_TO_PHOTOS));
@@ -58,9 +55,8 @@
       return comments;
     }
     // Создание единичного элемента с фотографией
-    function createSinglePhotoElement(obj) {
+    function createSinglePhotoElement(photoData) {
       var cloneNode = template.content.cloneNode('true');
-      var photoData = obj;
       cloneNode.querySelector('img').setAttribute('src', photoData.url);
       cloneNode.querySelector('.picture-likes').textContent = photoData.likes;
       cloneNode.querySelector('.picture-comments').textContent = photoData.comments;
@@ -82,8 +78,7 @@
       galleryOverlay.querySelector('.comments-count').textContent = photoData.comments.length;
     }
 
-    createArrayOfPhotosDescriptions(photosDescription, taskParameters.photoCount);
-    pictures.appendChild(createListOfPhotos(photosDescription));
+    photoContainer.appendChild(listOfPhotos);
     uploadOverlay.classList.add('hidden');
     galleryOverlay.classList.remove('hidden');
     setPhotoToOverlay(photosDescription[taskParameters.photoForOverlayIndex]);
