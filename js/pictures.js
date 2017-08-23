@@ -64,7 +64,9 @@
   function createListOfPhotos(array) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(createSinglePhotoElement(array[i]));
+      var object = array[i];
+      var photo = createSinglePhotoElement(object);
+      fragment.appendChild(photo);
     }
     return fragment;
   }
