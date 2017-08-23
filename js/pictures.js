@@ -15,7 +15,7 @@
   var uploadOverlay = document.querySelector('.upload-overlay');
   var galleryOverlay = document.querySelector('.gallery-overlay');
 
-  var COMMENTS_TO_PHOTOS = [ // Неуверен, что стоит объявлять этот массив как константу. Пока что не понятно, когда объявлять константы, а когда переменные. Это ведь только для моего удобства?
+  var COMMENTS_TO_PHOTOS = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
     'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -24,7 +24,7 @@
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
 
-    // Создание описаний к фотографиям и добавление их в массив
+  // Создание описаний к фотографиям и добавление их в массив
   function createArrayOfPhotosDescriptions(amount) {
     var array = [];
     for (var i = 1; i <= amount; i++) {
@@ -32,7 +32,7 @@
     }
     return array;
   }
-    // Генерация единичного описания фотографии
+  // Генерация единичного описания фотографии
   function createSinglePhotoDescription(index) {
     var likesAmount = window.tools.getRandomRoundNumber(taskParameters.likesMin, taskParameters.likesMax);
     var newDescription = {
@@ -42,7 +42,7 @@
     };
     return newDescription;
   }
-    // Создание массива с комментариями к фото
+  // Создание массива с комментариями к фото
   function createCommentForPhoto() {
     var comments = [];
     var amountOfComments = window.tools.getRandomRoundNumber(taskParameters.commentsMin, taskParameters.commentsMax);
@@ -52,7 +52,7 @@
     }
     return comments;
   }
-    // Создание единичного элемента с фотографией
+  // Создание единичного элемента с фотографией
   function createSinglePhotoElement(photoData) {
     var cloneNode = template.content.cloneNode('true');
     cloneNode.querySelector('img').setAttribute('src', photoData.url);
@@ -60,7 +60,7 @@
     cloneNode.querySelector('.picture-comments').textContent = photoData.comments;
     return cloneNode;
   }
-    // Создание списка с фотографиями
+  // Создание списка с фотографиями
   function createListOfPhotos(array) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < array.length; i++) {
@@ -70,7 +70,7 @@
     }
     return fragment;
   }
-    // Вставка фотографии с данными в оверлей
+  // Вставка фотографии с данными в оверлей
   function setPhotoToOverlay(obj) {
     var photoData = obj;
     galleryOverlay.querySelector('.gallery-overlay-image').setAttribute('src', photoData.url);
@@ -78,10 +78,27 @@
     galleryOverlay.querySelector('.comments-count').textContent = photoData.comments.length;
   }
 
+  // --------- Обработчики событий ---------
+  // Клик на фотографии
+  function onPictureClick(event) {
+    var clickTarget = event.target;
+
+    while (clickTarget !== photoContainer) {
+      if (clickTarget.classList.contains('picture')) {
+        break;
+      }
+      clickTarget = clickTarget.parentElement;
+    }
+
+    galleryOverlay.classList.remove('hidden');
+    setPhotoToOverlay(clickTarget);
+  }
+
   var photosDescription = createArrayOfPhotosDescriptions(taskParameters.photoCount);
   var listOfPhotos = createListOfPhotos(photosDescription);
+
   photoContainer.appendChild(listOfPhotos);
   uploadOverlay.classList.add('hidden');
-  galleryOverlay.classList.remove('hidden');
-  setPhotoToOverlay(photosDescription[taskParameters.photoForOverlayIndex]);
+
+  photoContainer.addEventListener('click', onPictureClick);
 })();
