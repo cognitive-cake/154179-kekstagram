@@ -6,14 +6,14 @@
     likesMin: 15,
     likesMax: 200,
     commentsMin: 1,
-    commentsMax: 2,
-    photoForOverlayIndex: 0
+    commentsMax: 2
   };
 
   var template = document.querySelector('#picture-template');
   var photoContainer = document.querySelector('.pictures');
   var uploadOverlay = document.querySelector('.upload-overlay');
   var galleryOverlay = document.querySelector('.gallery-overlay');
+  var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
 
   var COMMENTS_TO_PHOTOS = [
     'Всё отлично!',
@@ -57,7 +57,7 @@
     var cloneNode = template.content.cloneNode('true');
     cloneNode.querySelector('img').setAttribute('src', photoData.url);
     cloneNode.querySelector('.picture-likes').textContent = photoData.likes;
-    cloneNode.querySelector('.picture-comments').textContent = photoData.comments;
+    cloneNode.querySelector('.picture-comments').textContent = photoData.comments.length;
     return cloneNode;
   }
   // Создание списка с фотографиями
@@ -74,7 +74,7 @@
   function setPhotoToOverlay(element) {
     var elementImgSource = element.querySelector('img').getAttribute('src');
     var elementLikesAmount = element.querySelector('.picture-likes').textContent;
-    var elementCommentsAmount = 22;
+    var elementCommentsAmount = element.querySelector('.picture-comments').textContent;
 
     galleryOverlay.querySelector('.gallery-overlay-image').setAttribute('src', elementImgSource);
     galleryOverlay.querySelector('.likes-count').textContent = elementLikesAmount;
@@ -84,17 +84,26 @@
   // --------- Обработчики событий ---------
   // Клик на фотографии
   function onPictureClick(event) {
+    event.preventDefault();
     var clickTarget = event.target;
 
     while (clickTarget !== photoContainer) {
       if (clickTarget.classList.contains('picture')) {
         setPhotoToOverlay(clickTarget);
         galleryOverlay.classList.remove('hidden');
+        photoContainer.removeEventListener('click', onPictureClick);
+        galleryOverlayClose.addEventListener('click', onCloseCrossClick);
         break;
       }
       clickTarget = clickTarget.parentElement;
     }
   }
+  // Клик на крестике галлереии
+  function onCloseCrossClick(event) {
+    galleryOverlay.classList.add('hidden');
+    photoContainer.addEventListener('click', onPictureClick);
+  }
+  // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
   var photosDescription = createArrayOfPhotosDescriptions(taskParameters.photoCount);
   var listOfPhotos = createListOfPhotos(photosDescription);
