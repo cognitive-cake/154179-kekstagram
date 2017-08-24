@@ -6,7 +6,8 @@
     likesMin: 15,
     likesMax: 200,
     commentsMin: 1,
-    commentsMax: 2
+    commentsMax: 2,
+    tabindex: 0
   };
 
   var template = document.querySelector('#picture-template');
@@ -23,6 +24,10 @@
     'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
+  var KEY_CODES = {
+    esc: 27,
+    enter: 13
+  };
 
   // Создание описаний к фотографиям и добавление их в массив
   function createArrayOfPhotosDescriptions(amount) {
@@ -55,6 +60,7 @@
   // Создание единичного элемента с фотографией
   function createSinglePhotoElement(photoData) {
     var cloneNode = template.content.cloneNode('true');
+    // cloneNode.querySelector('.picture').setAttribute('tabindex', taskParameters.tabindex);
     cloneNode.querySelector('img').setAttribute('src', photoData.url);
     cloneNode.querySelector('.picture-likes').textContent = photoData.likes;
     cloneNode.querySelector('.picture-comments').textContent = photoData.comments.length;
@@ -93,15 +99,42 @@
         galleryOverlay.classList.remove('hidden');
         photoContainer.removeEventListener('click', onPictureClick);
         galleryOverlayClose.addEventListener('click', onCloseCrossClick);
+        galleryOverlayClose.addEventListener('keydown', onCloseCrossEnterPress);
+        document.addEventListener('keydown', onGalleryEscPress);
         break;
       }
       clickTarget = clickTarget.parentElement;
     }
   }
-  // Клик на крестике галлереии
+  // Клик на крестике галереи
   function onCloseCrossClick(event) {
     galleryOverlay.classList.add('hidden');
     photoContainer.addEventListener('click', onPictureClick);
+    galleryOverlayClose.removeEventListener('click', onCloseCrossClick);
+    galleryOverlayClose.removeEventListener('keydown', onCloseCrossEnterPress);
+    document.removeEventListener('keydown', onGalleryEscPress);
+  }
+  // Нажатие Enter на крестике галереи
+  function onCloseCrossEnterPress(event) {
+    var keyCode = event.keyCode;
+    if (keyCode === KEY_CODES.enter) {
+      galleryOverlay.classList.add('hidden');
+      photoContainer.addEventListener('click', onPictureClick);
+      galleryOverlayClose.removeEventListener('click', onCloseCrossClick);
+      galleryOverlayClose.removeEventListener('keydown', onCloseCrossEnterPress);
+      document.removeEventListener('keydown', onGalleryEscPress);
+    }
+  }
+  // Нажатие на ESC при открытой галерее
+  function onGalleryEscPress(event) {
+    var keyCode = event.keyCode;
+    if (keyCode === KEY_CODES.esc) {
+      galleryOverlay.classList.add('hidden');
+      photoContainer.addEventListener('click', onPictureClick);
+      galleryOverlayClose.removeEventListener('click', onCloseCrossClick);
+      galleryOverlayClose.removeEventListener('keydown', onCloseCrossEnterPress);
+      document.removeEventListener('keydown', onGalleryEscPress);
+    }
   }
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
