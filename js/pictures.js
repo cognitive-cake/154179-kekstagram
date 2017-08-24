@@ -71,11 +71,14 @@
     return fragment;
   }
   // Вставка фотографии с данными в оверлей
-  function setPhotoToOverlay(obj) {
-    var photoData = obj;
-    galleryOverlay.querySelector('.gallery-overlay-image').setAttribute('src', photoData.url);
-    galleryOverlay.querySelector('.likes-count').textContent = photoData.likes;
-    galleryOverlay.querySelector('.comments-count').textContent = photoData.comments.length;
+  function setPhotoToOverlay(element) {
+    var elementImgSource = element.querySelector('img').getAttribute('src');
+    var elementLikesAmount = element.querySelector('.picture-likes').textContent;
+    var elementCommentsAmount = 22;
+
+    galleryOverlay.querySelector('.gallery-overlay-image').setAttribute('src', elementImgSource);
+    galleryOverlay.querySelector('.likes-count').textContent = elementLikesAmount;
+    galleryOverlay.querySelector('.comments-count').textContent = elementCommentsAmount;
   }
 
   // --------- Обработчики событий ---------
@@ -85,13 +88,12 @@
 
     while (clickTarget !== photoContainer) {
       if (clickTarget.classList.contains('picture')) {
+        setPhotoToOverlay(clickTarget);
+        galleryOverlay.classList.remove('hidden');
         break;
       }
       clickTarget = clickTarget.parentElement;
     }
-
-    galleryOverlay.classList.remove('hidden');
-    setPhotoToOverlay(clickTarget);
   }
 
   var photosDescription = createArrayOfPhotosDescriptions(taskParameters.photoCount);
