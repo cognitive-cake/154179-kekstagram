@@ -76,22 +76,28 @@
     }
     return fragment;
   }
-  // Вставка фотографии с данными в оверлей
-  function setPhotoToOverlay(element) {
-    var elementImgSource = element.querySelector('img').getAttribute('src');
-    var elementLikesAmount = element.querySelector('.picture-likes').textContent;
-    var elementCommentsAmount = element.querySelector('.picture-comments').textContent;
+  // Определение правильного окончания для слова "n комментариев"
+  function getTrueEndingOfWord(commentsAmount) {
+    var lastNumber = commentsAmount.charAt(commentsAmount.length - 1);
     var commentWord;
     switch (true) {
-      case +elementCommentsAmount === 1:
+      case +lastNumber === 1:
         commentWord = ' комментарий';
         break;
-      case elementCommentsAmount > 1 && elementCommentsAmount < 5:
+      case lastNumber > 1 && lastNumber < 5:
         commentWord = ' комментария';
         break;
       default:
         commentWord = ' комментариев';
     }
+    return commentWord;
+  }
+  // Вставка фотографии с данными в оверлей
+  function setPhotoToOverlay(element) {
+    var elementImgSource = element.querySelector('img').getAttribute('src');
+    var elementLikesAmount = element.querySelector('.picture-likes').textContent;
+    var elementCommentsAmount = element.querySelector('.picture-comments').textContent;
+    var commentWord = getTrueEndingOfWord(elementCommentsAmount);
 
     galleryOverlay.querySelector('.gallery-overlay-image').setAttribute('src', elementImgSource);
     galleryOverlay.querySelector('.likes-count').textContent = elementLikesAmount;
