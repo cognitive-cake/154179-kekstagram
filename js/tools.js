@@ -5,7 +5,7 @@ window.tools = (function () {
     return (Math.random() * (max - min) + min);
   }
   function getRandomRoundNumber(min, max) {
-    return Math.round((Math.random() * (max - min) + min));
+    return Math.round(getRandomNumber(min, max));
   }
   function getMaxValue(array) {
     var maxValue = -1;
