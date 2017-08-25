@@ -160,7 +160,7 @@
   var listOfPhotos = createListOfPhotos(photosDescription);
 
   photoContainer.appendChild(listOfPhotos);
-  uploadOverlay.classList.add('hidden');
+  // uploadOverlay.classList.add('hidden');
 
   photoContainer.addEventListener('click', onPictureClick);
 })();
