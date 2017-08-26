@@ -80,15 +80,16 @@
   function getTrueEndingOfWord(commentsAmount) {
     var lastNumber = commentsAmount.charAt(commentsAmount.length - 1);
     var commentWord;
-    switch (true) {
-      case +lastNumber === 1:
+    if (window.tools.isSecondTen(commentsAmount)) {
+      commentWord = ' комментариев';
+    } else {
+      if (+lastNumber === 1) {
         commentWord = ' комментарий';
-        break;
-      case lastNumber > 1 && lastNumber < 5:
+      } else if (lastNumber > 1 && lastNumber < 5) {
         commentWord = ' комментария';
-        break;
-      default:
+      } else {
         commentWord = ' комментариев';
+      }
     }
     return commentWord;
   }
