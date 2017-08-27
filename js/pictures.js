@@ -1,5 +1,6 @@
 'use strict';
 
+
 (function () {
   var taskParameters = {
     photoCount: 25,
