@@ -7,6 +7,10 @@
   var uploadOverlay = uploadForm.querySelector('.upload-overlay');
   var uploadOverlayClose = uploadForm.querySelector('.upload-form-cancel');
   var uploadComment = uploadForm.querySelector('.upload-form-description');
+  var effectFieldset = uploadForm.querySelector('.upload-effect-controls');
+  var effectInputs = effectFieldset.querySelectorAll('input[name="effect"]');
+  var effectLabels = effectFieldset.querySelectorAll('.upload-effect-label');
+  var effectPreview = uploadForm.querySelector('.effect-image-preview');
 
   var KEY_CODES = {
     esc: 27,
@@ -14,12 +18,15 @@
   };
 
   // --------- Обработчики событий ---------
+  // --- Показ/скрытие формы ---
   // Открытие формы кадрирования
   function uploadOpen() {
     uploadOverlay.classList.remove('hidden');
     uploadOverlayClose.addEventListener('click', onCloseCrossClick);
     document.addEventListener('keydown', onUploadOverlayEscPress);
-    uploadComment.addEventListener('focus', onCommentFocus);
+    uploadComment.addEventListener('focus', onCommentFocusing);
+    effectFieldset.addEventListener('click', onEffectFieldsetClick);
+
     photoContainer.removeEventListener('click', window.pictures.onPictureClick);
   }
   // Закрытие формы кадрирования
@@ -27,7 +34,9 @@
     uploadOverlay.classList.add('hidden');
     uploadOverlayClose.removeEventListener('event', onCloseCrossClick);
     document.removeEventListener('keydown', onUploadOverlayEscPress);
-    uploadComment.removeEventListener('focus', onCommentFocus);
+    uploadComment.removeEventListener('focus', onCommentFocusing);
+    effectFieldset.removeEventListener('click', onEffectFieldsetClick);
+
     photoContainer.addEventListener('click', window.pictures.onPictureClick);
   }
   // Загрузка фотографии
@@ -46,15 +55,23 @@
     }
   }
   // Фокус на поле для комментария
-  function onCommentFocus(event) {
+  function onCommentFocusing(event) {
     document.removeEventListener('keydown', onUploadOverlayEscPress);
-    uploadComment.addEventListener('blur', onCommentUnfocus);
+    uploadComment.addEventListener('blur', onCommentDefocusing);
   }
   // Фокус с поля для комментария снят
-  function onCommentUnfocus(event) {
+  function onCommentDefocusing(event) {
     document.addEventListener('keydown', onUploadOverlayEscPress);
-    uploadComment.removeEventListener('blur', onCommentUnfocus);
+    uploadComment.removeEventListener('blur', onCommentDefocusing);
   }
+  // ^^^ Показ/скрытие формы ^^^
+  // --- Применение эффекта к изображению ---
+  // Клик в поле с эффектами
+  function onEffectFieldsetClick(event) {
+    var clickTarget = event.target;
+
+  }
+  // ^^^ Применение эффекта к изображению ^^^
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
   // Выполнение скрипта
