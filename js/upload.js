@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var taskParameters = {
+    beginSliceIndex: 7 // первый параметр для метода .slice(). Применяется к строке наподобие 'upload-effect-chrome'
+  };
+
   var photoContainer = document.querySelector('.pictures');
   var uploadForm = document.querySelector('#upload-select-image');
   var uploadFileInput = uploadForm.querySelector('#upload-file');
@@ -11,6 +15,7 @@
   var effectInputs = effectFieldset.querySelectorAll('input[name="effect"]');
   var effectLabels = effectFieldset.querySelectorAll('.upload-effect-label');
   var effectPreview = uploadForm.querySelector('.effect-image-preview');
+  var lastEffectClass;
 
   var KEY_CODES = {
     esc: 27,
@@ -69,7 +74,20 @@
   // Клик в поле с эффектами
   function onEffectFieldsetClick(event) {
     var clickTarget = event.target;
-
+    while (clickTarget !== effectFieldset) {
+      if (clickTarget.classList.contains('upload-effect-label')) {
+        addEffectToPhoto(clickTarget);
+        break;
+      }
+      clickTarget = clickTarget.parentElement;
+    }
+  }
+  // Применение эффекта к фотографии
+  function addEffectToPhoto(clickTarget) {
+    var effectName = clickTarget.getAttribute('for').slice(taskParameters.beginSliceIndex);
+    effectPreview.classList.remove(lastEffectClass);
+    lastEffectClass = effectName;
+    effectPreview.classList.add(effectName);
   }
   // ^^^ Применение эффекта к изображению ^^^
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
