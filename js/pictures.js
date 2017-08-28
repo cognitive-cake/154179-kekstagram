@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+window.pictures = (function () {
   var taskParameters = {
     photoCount: 25,
     likesMin: 15,
@@ -12,7 +12,6 @@
 
   var template = document.querySelector('#picture-template');
   var photoContainer = document.querySelector('.pictures');
-  var uploadOverlay = document.querySelector('.upload-overlay');
   var galleryOverlay = document.querySelector('.gallery-overlay');
   var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
 
@@ -157,11 +156,15 @@
   }
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
+  // Выполнение скрипта
   var photosDescription = createArrayOfPhotosDescriptions(taskParameters.photoCount);
   var listOfPhotos = createListOfPhotos(photosDescription);
 
   photoContainer.appendChild(listOfPhotos);
-  // uploadOverlay.classList.add('hidden');
-
   photoContainer.addEventListener('click', onPictureClick);
+
+  // Экспорт
+  return {
+    onPictureClick: onPictureClick
+  };
 })();
