@@ -9,6 +9,14 @@
     scaleUnits: '%',
     radixForScaleValue: 10
   };
+  var hashTagsValidation = {
+    optionalField: 'optional',
+    firstChar: '#',
+    regExpFirstChar: /#/g,
+    tagsSeparator: ' ',
+    maxTagsAmount: 5,
+    maxOneTagLength: 20
+  };
 
   // Переменные для показа/сокрытия формы
   var photoContainer = document.querySelector('.pictures');
@@ -27,6 +35,9 @@
   var resizeControls = uploadForm.querySelector('.upload-resize-controls');
   var resizeValue = resizeControls.querySelector('.upload-resize-controls-value');
 
+  // Переменные для хэш-тегов
+  var hashTagInput = uploadForm.querySelector('.upload-form-hashtags');
+
   var KEY_CODES = {
     esc: 27,
     enter: 13
@@ -42,6 +53,7 @@
     uploadComment.addEventListener('focus', onCommentFocusing);
     effectFieldset.addEventListener('click', onEffectFieldsetClick);
     resizeControls.addEventListener('click', onResizeControlsClick);
+    hashTagInput.addEventListener('input', onHashTagInput);
 
     photoContainer.removeEventListener('click', window.pictures.onPictureClick);
   }
@@ -53,6 +65,7 @@
     uploadComment.removeEventListener('focus', onCommentFocusing);
     effectFieldset.removeEventListener('click', onEffectFieldsetClick);
     resizeControls.removeEventListener('click', onResizeControlsClick);
+    hashTagInput.removeEventListener('input', onHashTagInput);
 
     photoContainer.addEventListener('click', window.pictures.onPictureClick);
   }
@@ -137,6 +150,30 @@
     imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
   }
   // ^^^ Изменение масштаба изображения ^^^
+  // --- Валидация хэш-тегов ---
+  // Ввод значений в поле хэш-тегов
+  var customMessages = [];
+  function onHashTagInput(event) {
+
+    var arrayOfValues = hashTagInput.value.split(hashTagsValidation.tagsSeparator);
+    for (var i = 0; i < arrayOfValues.length; i++) {
+      var singleTag = arrayOfValues[i];
+
+      if (singleTag.charAt(0) !== hashTagsValidation.firstChar) {
+        hashTagInput.setCustomValidity('Хэш-теги должны начинается с символа `#` (решётка) и состоять из одного слова');
+      }
+      if (singleTag.match(hashTagsValidation.regExpFirstChar) && singleTag.match(hashTagsValidation.regExpFirstChar).length > 2) {
+        hashTagInput.setCustomValidity('Хэш-теги должны разделяться пробелами');
+      }
+      if (singleTag.length > hashTagsValidation.maxOneTagLength) {
+        hashTagInput.setCustomValidity('Максимальная длина одного хэш-тега - не более 20 символов');
+      }
+    }
+    if (arrayOfValues.length > hashTagsValidation.maxTagsAmount) {
+      hashTagInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+    }
+  }
+  // ^^^ Валидация хэш-тегов ^^^
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
   // Выполнение скрипта
