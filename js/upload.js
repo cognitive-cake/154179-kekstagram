@@ -15,7 +15,8 @@
     regExpFirstChar: /#/g,
     tagsSeparator: ' ',
     maxTagsAmount: 5,
-    maxOneTagLength: 20
+    maxOneTagLength: 20,
+    errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и состоит из одного слова. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
   };
 
   // Переменные для показа/сокрытия формы
@@ -152,29 +153,36 @@
   }
   // ^^^ Изменение масштаба изображения ^^^
   // --- Валидация хэш-тегов ---
-  // Ввод значений в поле хэш-тегов
+  // Клик на кнопке отправки формы
   function onSubmitClick(event) {
-    var customMessages = [];
+    window.tools.unsetInvalidClass(hashTagInput);
+    hashTagInput.setCustomValidity('');
+    checkHashTagsValidity();
+  }
+  // Валидация строки с хэш-тегами
+  function checkHashTagsValidity() {
     var arrayOfValues = hashTagInput.value.split(hashTagsValidation.tagsSeparator);
     for (var i = 0; i < arrayOfValues.length; i++) {
       var singleTag = arrayOfValues[i];
 
       if (singleTag.charAt(0) !== hashTagsValidation.firstChar) {
-        customMessages.push('Хэш-теги должны начинается с символа `#` (решётка) и состоять из одного слова');
+        window.tools.setInvalidClass(hashTagInput);
       }
       if (singleTag.match(hashTagsValidation.regExpFirstChar) && singleTag.match(hashTagsValidation.regExpFirstChar).length > 1) {
-        customMessages.push('Хэш-теги должны разделяться пробелами');
+        window.tools.setInvalidClass(hashTagInput);
       }
       if (singleTag.length > hashTagsValidation.maxOneTagLength) {
-        customMessages.push('Максимальная длина одного хэш-тега - не более 20 символов');
+        window.tools.setInvalidClass(hashTagInput);
       }
     }
-    if (arrayOfValues.length > hashTagsValidation.maxTagsAmount) {
-      customMessages.push('Нельзя указать больше пяти хэш-тегов');
+    if (!window.tools.isUniqElementsInArray(arrayOfValues)) {
+      window.tools.setInvalidClass(hashTagInput);
     }
-    if (customMessages.length !== 0) {
-      var errorText = customMessages.join('. \n');
-      hashTagInput.setCustomValidity(errorText);
+    if (arrayOfValues.length > hashTagsValidation.maxTagsAmount) {
+      window.tools.setInvalidClass(hashTagInput);
+    }
+    if (window.tools.checkInvalidClass(hashTagInput)) {
+      hashTagInput.setCustomValidity(hashTagsValidation.errorMessage);
     }
   }
   // ^^^ Валидация хэш-тегов ^^^
