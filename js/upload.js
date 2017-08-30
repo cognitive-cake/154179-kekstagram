@@ -37,6 +37,7 @@
 
   // Переменные для хэш-тегов
   var hashTagInput = uploadForm.querySelector('.upload-form-hashtags');
+  var submitButton = uploadForm.querySelector('#upload-submit');
 
   var KEY_CODES = {
     esc: 27,
@@ -53,7 +54,7 @@
     uploadComment.addEventListener('focus', onCommentFocusing);
     effectFieldset.addEventListener('click', onEffectFieldsetClick);
     resizeControls.addEventListener('click', onResizeControlsClick);
-    hashTagInput.addEventListener('input', onHashTagInput);
+    submitButton.addEventListener('click', onSubmitClick);
 
     photoContainer.removeEventListener('click', window.pictures.onPictureClick);
   }
@@ -65,7 +66,7 @@
     uploadComment.removeEventListener('focus', onCommentFocusing);
     effectFieldset.removeEventListener('click', onEffectFieldsetClick);
     resizeControls.removeEventListener('click', onResizeControlsClick);
-    hashTagInput.removeEventListener('input', onHashTagInput);
+    submitButton.removeEventListener('click', onSubmitClick);
 
     photoContainer.addEventListener('click', window.pictures.onPictureClick);
   }
@@ -152,25 +153,28 @@
   // ^^^ Изменение масштаба изображения ^^^
   // --- Валидация хэш-тегов ---
   // Ввод значений в поле хэш-тегов
-  var customMessages = [];
-  function onHashTagInput(event) {
-
+  function onSubmitClick(event) {
+    var customMessages = [];
     var arrayOfValues = hashTagInput.value.split(hashTagsValidation.tagsSeparator);
     for (var i = 0; i < arrayOfValues.length; i++) {
       var singleTag = arrayOfValues[i];
 
       if (singleTag.charAt(0) !== hashTagsValidation.firstChar) {
-        hashTagInput.setCustomValidity('Хэш-теги должны начинается с символа `#` (решётка) и состоять из одного слова');
+        customMessages.push('Хэш-теги должны начинается с символа `#` (решётка) и состоять из одного слова');
       }
-      if (singleTag.match(hashTagsValidation.regExpFirstChar) && singleTag.match(hashTagsValidation.regExpFirstChar).length > 2) {
-        hashTagInput.setCustomValidity('Хэш-теги должны разделяться пробелами');
+      if (singleTag.match(hashTagsValidation.regExpFirstChar) && singleTag.match(hashTagsValidation.regExpFirstChar).length > 1) {
+        customMessages.push('Хэш-теги должны разделяться пробелами');
       }
       if (singleTag.length > hashTagsValidation.maxOneTagLength) {
-        hashTagInput.setCustomValidity('Максимальная длина одного хэш-тега - не более 20 символов');
+        customMessages.push('Максимальная длина одного хэш-тега - не более 20 символов');
       }
     }
     if (arrayOfValues.length > hashTagsValidation.maxTagsAmount) {
-      hashTagInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+      customMessages.push('Нельзя указать больше пяти хэш-тегов');
+    }
+    if (customMessages.length !== 0) {
+      var errorText = customMessages.join('. \n');
+      hashTagInput.setCustomValidity(errorText);
     }
   }
   // ^^^ Валидация хэш-тегов ^^^
