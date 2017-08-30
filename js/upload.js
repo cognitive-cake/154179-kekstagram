@@ -53,6 +53,7 @@
     uploadOverlayClose.addEventListener('click', onCloseCrossClick);
     document.addEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.addEventListener('focus', onCommentFocusing);
+    uploadComment.addEventListener('input', onCommentInput);
     effectFieldset.addEventListener('click', onEffectFieldsetClick);
     resizeControls.addEventListener('click', onResizeControlsClick);
     submitButton.addEventListener('click', onSubmitClick);
@@ -65,6 +66,7 @@
     uploadOverlayClose.removeEventListener('event', onCloseCrossClick);
     document.removeEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.removeEventListener('focus', onCommentFocusing);
+    uploadComment.removeEventListener('input', onCommentInput);
     effectFieldset.removeEventListener('click', onEffectFieldsetClick);
     resizeControls.removeEventListener('click', onResizeControlsClick);
     submitButton.removeEventListener('click', onSubmitClick);
@@ -162,6 +164,9 @@
   // Валидация строки с хэш-тегами
   function checkHashTagsValidity() {
     var arrayOfValues = hashTagInput.value.split(hashTagsValidation.tagsSeparator);
+    if (arrayOfValues[0] === '') {
+      return;
+    }
     for (var i = 0; i < arrayOfValues.length; i++) {
       var singleTag = arrayOfValues[i];
 
@@ -186,6 +191,14 @@
     }
   }
   // ^^^ Валидация хэш-тегов ^^^
+  // --- Валидация комментария ---
+  function onCommentInput(event) {
+    window.tools.unsetInvalidClass(uploadComment);
+    if (!uploadComment.checkValidity()) {
+      window.tools.setInvalidClass(uploadComment);
+    }
+  }
+  // ^^^ Валидация комментария ^^^
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
   // Выполнение скрипта
