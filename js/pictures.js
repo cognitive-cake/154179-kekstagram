@@ -1,7 +1,7 @@
 'use strict';
 
 
-(function () {
+window.pictures = (function () {
   var taskParameters = {
     photoCount: 25,
     likesMin: 15,
@@ -13,7 +13,6 @@
 
   var template = document.querySelector('#picture-template');
   var photoContainer = document.querySelector('.pictures');
-  var uploadOverlay = document.querySelector('.upload-overlay');
   var galleryOverlay = document.querySelector('.gallery-overlay');
   var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
 
@@ -81,15 +80,16 @@
   function getTrueEndingOfWord(commentsAmount) {
     var lastNumber = commentsAmount.charAt(commentsAmount.length - 1);
     var commentWord;
-    switch (true) {
-      case +lastNumber === 1:
+    if (window.tools.isSecondTen(commentsAmount)) {
+      commentWord = ' комментариев';
+    } else {
+      if (+lastNumber === 1) {
         commentWord = ' комментарий';
-        break;
-      case lastNumber > 1 && lastNumber < 5:
+      } else if (lastNumber > 1 && lastNumber < 5) {
         commentWord = ' комментария';
-        break;
-      default:
+      } else {
         commentWord = ' комментариев';
+      }
     }
     return commentWord;
   }
@@ -157,11 +157,15 @@
   }
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
+  // Выполнение скрипта
   var photosDescription = createArrayOfPhotosDescriptions(taskParameters.photoCount);
   var listOfPhotos = createListOfPhotos(photosDescription);
 
   photoContainer.appendChild(listOfPhotos);
-  uploadOverlay.classList.add('hidden');
-
   photoContainer.addEventListener('click', onPictureClick);
+
+  // Экспорт
+  return {
+    onPictureClick: onPictureClick
+  };
 })();
