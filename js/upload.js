@@ -123,32 +123,47 @@
   // Клик в области кнопок масштабирования
   function onResizeControlsClick(event) {
     var clickTarget = event.target;
-    var currentValue = parseInt(resizeValue.getAttribute('value'), taskParameters.radixForScaleValue);
-    while (clickTarget !== resizeControls) {
-      if (clickTarget.classList.contains('upload-resize-controls-button-inc')) {
-        if (currentValue === taskParameters.maxScale) {
-          break;
-        }
+    if (isResizeButton(clickTarget)) {
+      var currentValue = getCurrentScaleValue();
+      if (isIncButton(clickTarget)) {
         increaseScale(currentValue);
-        break;
-      } else if (clickTarget.classList.contains('upload-resize-controls-button-dec')) {
-        if (currentValue === taskParameters.minScale) {
-          break;
-        }
+        return;
+      } else if (isDecButton(clickTarget)) {
         decreaseScale(currentValue);
-        break;
+        return;
       }
-      clickTarget = clickTarget.parentElement;
     }
+  }
+  // Нахождение кнопки
+  function isResizeButton(clickTarget) {
+    return clickTarget.classList.contains('upload-resize-controls-button');
+  }
+  // Нахождение текущего значения масштаба
+  function getCurrentScaleValue() {
+    return parseInt(resizeValue.getAttribute('value'), taskParameters.radixForScaleValue);
+  }
+  // Если клик на кнопке "+"
+  function isIncButton(clickTarget) {
+    return clickTarget.classList.contains('upload-resize-controls-button-inc');
+  }
+  // Если клик на кнопке "-"
+  function isDecButton(clickTarget) {
+    return clickTarget.classList.contains('upload-resize-controls-button-dec');
   }
   // Увеличение масштаба
   function increaseScale(currentValue) {
+    if (currentValue === taskParameters.maxScale) {
+      return;
+    }
     var newValue = currentValue + taskParameters.scaleStep;
     resizeValue.setAttribute('value', newValue + taskParameters.scaleUnits);
     imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
   }
   // Уменьшение масштаба
   function decreaseScale(currentValue) {
+    if (currentValue === taskParameters.minScale) {
+      return;
+    }
     var newValue = currentValue - taskParameters.scaleStep;
     resizeValue.setAttribute('value', newValue + taskParameters.scaleUnits);
     imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
