@@ -184,11 +184,12 @@
     }
     for (var i = 0; i < arrayOfValues.length; i++) {
       var singleTag = arrayOfValues[i];
+      var hashSymbols = singleTag.match(hashTagsValidation.regExpFirstChar);
 
       if (singleTag.charAt(0) !== hashTagsValidation.firstChar) {
         window.tools.setInvalidClass(hashTagInput);
       }
-      if (singleTag.match(hashTagsValidation.regExpFirstChar) && singleTag.match(hashTagsValidation.regExpFirstChar).length > 1) {
+      if (hashSymbols && hashSymbols.length > 1) {
         window.tools.setInvalidClass(hashTagInput);
       }
       if (singleTag.length > hashTagsValidation.maxOneTagLength) {
