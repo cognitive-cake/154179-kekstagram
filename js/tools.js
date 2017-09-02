@@ -49,7 +49,8 @@ window.tools = (function () {
     return element.classList.contains('invalid');
   }
 
-  var obj = {
+  // Экспорт
+  return {
     getRandomNumber: getRandomNumber,
     getRandomRoundNumber: getRandomRoundNumber,
     getMaxValue: getMaxValue,
@@ -60,6 +61,4 @@ window.tools = (function () {
     unsetInvalidClass: unsetInvalidClass,
     checkInvalidClass: checkInvalidClass
   };
-
-  return obj;
 })();

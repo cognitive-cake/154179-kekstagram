@@ -21,27 +21,9 @@ window.picture = (function () {
     }
     return fragment;
   }
-  // Определение правильного окончания для слова "n комментариев"
-  function getTrueEndingOfWord(commentsAmount) {
-    var lastNumber = commentsAmount.charAt(commentsAmount.length - 1);
-    var commentWord;
-    if (window.tools.isSecondTen(commentsAmount)) {
-      commentWord = ' комментариев';
-    } else {
-      if (+lastNumber === 1) {
-        commentWord = ' комментарий';
-      } else if (lastNumber > 1 && lastNumber < 5) {
-        commentWord = ' комментария';
-      } else {
-        commentWord = ' комментариев';
-      }
-    }
-    return commentWord;
-  }
 
   // Экспорт
   return {
     createListOfPhotos: createListOfPhotos,
-    getTrueEndingOfWord: getTrueEndingOfWord
   };
 })();
