@@ -30,6 +30,8 @@
   // Переменные для эффектов
   var effectFieldset = uploadForm.querySelector('.upload-effect-controls');
   var imagePreview = uploadForm.querySelector('.effect-image-preview');
+  var effectLevelSlider = uploadForm.querySelector('.upload-effect-level');
+  var effectLevelPin = effectLevelSlider.querySelector('.upload-effect-level-pin');
   var lastEffectClass;
 
   // Переменные для масштабирования
@@ -114,6 +116,7 @@
   // Применение эффекта к фотографии
   function addEffectToPhoto(clickTarget) {
     var effectName = clickTarget.getAttribute('for').slice(taskParameters.beginSliceIndex);
+    effectLevelSlider.classList.remove('hidden');
     imagePreview.classList.remove(lastEffectClass);
     lastEffectClass = effectName;
     imagePreview.classList.add(effectName);
