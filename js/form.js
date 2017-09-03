@@ -58,7 +58,7 @@
     resizeControls.addEventListener('click', onResizeControlsClick);
     submitButton.addEventListener('click', onSubmitClick);
 
-    photoContainer.removeEventListener('click', window.pictures.onPictureClick);
+    photoContainer.removeEventListener('click', window.gallery.onPictureClick);
   }
   // Закрытие формы кадрирования
   function uploadClose() {
@@ -71,7 +71,7 @@
     resizeControls.removeEventListener('click', onResizeControlsClick);
     submitButton.removeEventListener('click', onSubmitClick);
 
-    photoContainer.addEventListener('click', window.pictures.onPictureClick);
+    photoContainer.addEventListener('click', window.gallery.onPictureClick);
   }
   // Загрузка фотографии
   function onPhotoUpload(event) {
