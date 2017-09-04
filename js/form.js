@@ -9,8 +9,9 @@
     scaleUnits: '%',
     radixForScaleValue: 10,
     defaultEffectClass: 'effect-none',
+    defaultEffectValue: '100%',
     effectLineUnit: '%',
-    effectPinPositionPrecision: 2
+    effectPinPositionPrecision: 1
   };
   var hashTagsValidation = {
     optionalField: 'optional',
@@ -132,6 +133,7 @@
   }
   // Показ слайдера насыщенности для эффектов
   function showEffectsSlider() {
+    setEffectValue(taskParameters.defaultEffectValue);
     effectLevelSlider.classList.remove('hidden');
     effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
   }
@@ -149,13 +151,21 @@
     // Перетаскивание пина
     function onEffectPinMouseMove(moveEvt) {
       moveEvt.preventDefault();
+
       var shiftX = startX - moveEvt.clientX;
       var pinPositionInPercent = ((effectLevelPin.offsetLeft - shiftX) / effectLineWidth) * 100;
-      if (pinPositionInPercent > 100 || pinPositionInPercent < 0) {
-        return;
-      }
       startX = moveEvt.clientX;
-      effectLevelPin.style.left = pinPositionInPercent.toFixed(taskParameters.effectPinPositionPrecision) + taskParameters.effectLineUnit;
+
+      if (pinPositionInPercent > 100) {
+        pinPositionInPercent = 100;
+      }
+      if (pinPositionInPercent < 0) {
+        pinPositionInPercent = 0;
+      }
+
+      var pinPositionString = pinPositionInPercent.toFixed(taskParameters.effectPinPositionPrecision) + taskParameters.effectLineUnit;
+
+      setEffectValue(pinPositionString);
     }
     // Отпускание кнопки мыши на пине
     function onEffectPinMouseUp(upEvt) {
@@ -167,6 +177,12 @@
 
     document.addEventListener('mousemove', onEffectPinMouseMove);
     document.addEventListener('mouseup', onEffectPinMouseUp);
+  }
+  // Установка значения эффекта
+  function setEffectValue(value) {
+    effectLevelPin.style.left = value;
+    effectLevelPin.setAttribute('title', value);
+    effectLevelBar.style.width = value;
   }
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
