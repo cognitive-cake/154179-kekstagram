@@ -212,19 +212,12 @@
   }
   // Применение эффекта
   function setEffect(value) {
-    var filter = findCurrentFilter();
+    var filter = findCurrentEffect();
     setPinPosition(value);
     setFilterValueForPreview(filter, value);
   }
-  // Установка положения для слайдера
-  function setPinPosition(value) {
-    var pinPositionString = value.toFixed(effectsParameters.effectPinPositionPrecision) + effectsParameters.effectLineUnit;
-    effectLevelPin.style.left = pinPositionString;
-    effectLevelPin.setAttribute('title', pinPositionString);
-    effectLevelBar.style.width = pinPositionString;
-  }
-  // Нахождение текущего фильтра
-  function findCurrentFilter() {
+  // Нахождение текущего эффекта
+  function findCurrentEffect() {
     var currentEffect;
     switch (imagePreview.classList[effectsParameters.effectClassIndex]) {
       case effectsParameters.effectChrome.class:
@@ -246,6 +239,13 @@
         currentEffect = effectsParameters.defaultEffectClass;
     }
     return currentEffect;
+  }
+  // Установка положения для слайдера
+  function setPinPosition(value) {
+    var pinPositionString = value.toFixed(effectsParameters.effectPinPositionPrecision) + effectsParameters.effectLineUnit;
+    effectLevelPin.style.left = pinPositionString;
+    effectLevelPin.setAttribute('title', pinPositionString);
+    effectLevelBar.style.width = pinPositionString;
   }
   // Установка значения filter для текущего эффекта
   function setFilterValueForPreview(effect, value) {
