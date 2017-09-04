@@ -7,7 +7,8 @@
     maxScale: 100,
     scaleStep: 25,
     scaleUnits: '%',
-    radixForScaleValue: 10
+    radixForScaleValue: 10,
+    defaultEffectClass: 'effect-none'
   };
   var hashTagsValidation = {
     optionalField: 'optional',
@@ -116,10 +117,23 @@
   // Применение эффекта к фотографии
   function addEffectToPhoto(clickTarget) {
     var effectName = clickTarget.getAttribute('for').slice(taskParameters.beginSliceIndex);
-    effectLevelSlider.classList.remove('hidden');
+
     imagePreview.classList.remove(lastEffectClass);
     lastEffectClass = effectName;
     imagePreview.classList.add(effectName);
+
+    showEffectsSlider();
+    if (imagePreview.classList.contains(taskParameters.defaultEffectClass)) {
+      hideEffectsSlider();
+    }
+  }
+  // Показ слайдера насыщенности для эффектов
+  function showEffectsSlider() {
+    effectLevelSlider.classList.remove('hidden');
+  }
+  // Скрытие слайдера насыщенности для эффектов
+  function hideEffectsSlider() {
+    effectLevelSlider.classList.add('hidden');
   }
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
