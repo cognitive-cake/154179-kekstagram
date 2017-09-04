@@ -23,6 +23,7 @@
     effectLineUnit: '%',
     effectPinPositionPrecision: 1,
     effectPreviewPrecision: 2,
+    effectClassIndex: 1,
 
     effectChrome: {
       class: 'effect-chrome',
@@ -166,7 +167,7 @@
   }
   // Показ слайдера насыщенности для эффектов
   function showEffectsSlider() {
-    setEffectValue(effectsParameters.defaultEffectValue);
+    setEffect(effectsParameters.defaultEffectValue);
     effectLevelSlider.classList.remove('hidden');
     effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
   }
@@ -196,7 +197,7 @@
         pinPositionInPercent = 0;
       }
 
-      setEffectValue(pinPositionInPercent);
+      setEffect(pinPositionInPercent);
     }
     // Отпускание кнопки мыши на пине
     function onEffectPinMouseUp(upEvt) {
@@ -209,39 +210,51 @@
     document.addEventListener('mousemove', onEffectPinMouseMove);
     document.addEventListener('mouseup', onEffectPinMouseUp);
   }
-  // Установка значения эффекта
-  function setEffectValue(value) {
-    var valueInDecimal = value / 100;
-    switch (imagePreview.classList[1]) {
-      case effectsParameters.effectChrome.class:
-        var effect = effectsParameters.effectChrome;
-        setFilterValueForPreview(effect, valueInDecimal);
-        break;
-      case effectsParameters.effectSepia.class:
-        effect = effectsParameters.effectChrome;
-        setFilterValueForPreview(effect, valueInDecimal);
-        break;
-      case effectsParameters.effectMarvin.class:
-        effect = effectsParameters.effectChrome;
-        setFilterValueForPreview(effect, valueInDecimal);
-        break;
-      case effectsParameters.effectPhobos.class:
-        effect = effectsParameters.effectChrome;
-        setFilterValueForPreview(effect, valueInDecimal);
-        break;
-      case effectsParameters.effectHeat.class:
-        effect = effectsParameters.effectChrome;
-        setFilterValueForPreview(effect, valueInDecimal);
-        break;
-    }
+  // Применение эффекта
+  function setEffect(value) {
+    var filter = findCurrentFilter();
+    setPinPosition(value);
+    setFilterValueForPreview(filter, value);
+  }
+  // Установка положения для слайдера
+  function setPinPosition(value) {
     var pinPositionString = value.toFixed(effectsParameters.effectPinPositionPrecision) + effectsParameters.effectLineUnit;
     effectLevelPin.style.left = pinPositionString;
     effectLevelPin.setAttribute('title', pinPositionString);
     effectLevelBar.style.width = pinPositionString;
   }
+  // Нахождение текущего фильтра
+  function findCurrentFilter() {
+    var currentEffect;
+    switch (imagePreview.classList[effectsParameters.effectClassIndex]) {
+      case effectsParameters.effectChrome.class:
+        currentEffect = effectsParameters.effectChrome;
+        break;
+      case effectsParameters.effectSepia.class:
+        currentEffect = effectsParameters.effectSepia;
+        break;
+      case effectsParameters.effectMarvin.class:
+        currentEffect = effectsParameters.effectMarvin;
+        break;
+      case effectsParameters.effectPhobos.class:
+        currentEffect = effectsParameters.effectPhobos;
+        break;
+      case effectsParameters.effectHeat.class:
+        currentEffect = effectsParameters.effectHeat;
+        break;
+      default:
+        currentEffect = effectsParameters.defaultEffectClass;
+    }
+    return currentEffect;
+  }
   // Установка значения filter для текущего эффекта
   function setFilterValueForPreview(effect, value) {
-    imagePreview.style.filter = effect.property + '(' + (value * effect.maxValue).toFixed(effectsParameters.effectPreviewPrecision) + effect.units + ')';
+    if (effect === effectsParameters.defaultEffectClass) {
+      imagePreview.style.filter = '';
+      return;
+    }
+    var valueInDecimal = value / 100;
+    imagePreview.style.filter = effect.property + '(' + (valueInDecimal * effect.maxValue).toFixed(effectsParameters.effectPreviewPrecision) + effect.units + ')';
   }
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
