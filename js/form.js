@@ -22,6 +22,7 @@
     defaultEffectValue: 100,
     effectLineUnit: '%',
     effectPinPositionPrecision: 1,
+    effectPreviewPrecision: 2,
 
     effectChrome: {
       class: 'effect-chrome',
@@ -210,10 +211,37 @@
   }
   // Установка значения эффекта
   function setEffectValue(value) {
+    var valueInDecimal = value / 100;
+    switch (imagePreview.classList[1]) {
+      case effectsParameters.effectChrome.class:
+        var effect = effectsParameters.effectChrome;
+        setFilterValueForPreview(effect, valueInDecimal);
+        break;
+      case effectsParameters.effectSepia.class:
+        effect = effectsParameters.effectChrome;
+        setFilterValueForPreview(effect, valueInDecimal);
+        break;
+      case effectsParameters.effectMarvin.class:
+        effect = effectsParameters.effectChrome;
+        setFilterValueForPreview(effect, valueInDecimal);
+        break;
+      case effectsParameters.effectPhobos.class:
+        effect = effectsParameters.effectChrome;
+        setFilterValueForPreview(effect, valueInDecimal);
+        break;
+      case effectsParameters.effectHeat.class:
+        effect = effectsParameters.effectChrome;
+        setFilterValueForPreview(effect, valueInDecimal);
+        break;
+    }
     var pinPositionString = value.toFixed(effectsParameters.effectPinPositionPrecision) + effectsParameters.effectLineUnit;
     effectLevelPin.style.left = pinPositionString;
     effectLevelPin.setAttribute('title', pinPositionString);
     effectLevelBar.style.width = pinPositionString;
+  }
+  // Установка значения filter для текущего эффекта
+  function setFilterValueForPreview(effect, value) {
+    imagePreview.style.filter = effect.property + '(' + (value * effect.maxValue).toFixed(effectsParameters.effectPreviewPrecision) + effect.units + ')';
   }
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
