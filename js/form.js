@@ -7,20 +7,52 @@
     maxScale: 100,
     scaleStep: 25,
     scaleUnits: '%',
-    radixForScaleValue: 10,
-    defaultEffectClass: 'effect-none',
-    defaultEffectValue: '100%',
-    effectLineUnit: '%',
-    effectPinPositionPrecision: 1
+    radixForScaleValue: 10
   };
   var hashTagsValidation = {
-    optionalField: 'optional',
     firstChar: '#',
     regExpFirstChar: /#/g,
     tagsSeparator: ' ',
     maxTagsAmount: 5,
     maxOneTagLength: 20,
     errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и состоит из одного слова. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
+  };
+  var effectsParameters = {
+    defaultEffectClass: 'effect-none',
+    defaultEffectValue: 100,
+    effectLineUnit: '%',
+    effectPinPositionPrecision: 1,
+
+    effectChrome: {
+      class: 'effect-chrome',
+      property: 'grayscale',
+      maxValue: 1,
+      units: ''
+    },
+    effectSepia: {
+      class: 'effect-sepia',
+      property: 'sepia',
+      maxValue: 1,
+      units: ''
+    },
+    effectMarvin: {
+      class: 'effect-marvin',
+      property: 'invert',
+      maxValue: 100,
+      units: '%'
+    },
+    effectPhobos: {
+      class: 'effect-phobos',
+      property: 'blur',
+      maxValue: 3,
+      units: 'px'
+    },
+    effectHeat: {
+      class: 'effect-heat',
+      property: 'brightness',
+      maxValue: 3,
+      units: ''
+    },
   };
 
   // Переменные для показа/сокрытия формы
@@ -127,13 +159,13 @@
     imagePreview.classList.add(effectName);
 
     showEffectsSlider();
-    if (imagePreview.classList.contains(taskParameters.defaultEffectClass)) {
+    if (imagePreview.classList.contains(effectsParameters.defaultEffectClass)) {
       hideEffectsSlider();
     }
   }
   // Показ слайдера насыщенности для эффектов
   function showEffectsSlider() {
-    setEffectValue(taskParameters.defaultEffectValue);
+    setEffectValue(effectsParameters.defaultEffectValue);
     effectLevelSlider.classList.remove('hidden');
     effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
   }
@@ -163,9 +195,7 @@
         pinPositionInPercent = 0;
       }
 
-      var pinPositionString = pinPositionInPercent.toFixed(taskParameters.effectPinPositionPrecision) + taskParameters.effectLineUnit;
-
-      setEffectValue(pinPositionString);
+      setEffectValue(pinPositionInPercent);
     }
     // Отпускание кнопки мыши на пине
     function onEffectPinMouseUp(upEvt) {
@@ -180,9 +210,10 @@
   }
   // Установка значения эффекта
   function setEffectValue(value) {
-    effectLevelPin.style.left = value;
-    effectLevelPin.setAttribute('title', value);
-    effectLevelBar.style.width = value;
+    var pinPositionString = value.toFixed(effectsParameters.effectPinPositionPrecision) + effectsParameters.effectLineUnit;
+    effectLevelPin.style.left = pinPositionString;
+    effectLevelPin.setAttribute('title', pinPositionString);
+    effectLevelBar.style.width = pinPositionString;
   }
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
