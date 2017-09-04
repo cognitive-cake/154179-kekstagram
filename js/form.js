@@ -8,7 +8,9 @@
     scaleStep: 25,
     scaleUnits: '%',
     radixForScaleValue: 10,
-    defaultEffectClass: 'effect-none'
+    defaultEffectClass: 'effect-none',
+    effectLineUnit: '%',
+    effectPinPositionPrecision: 2
   };
   var hashTagsValidation = {
     optionalField: 'optional',
@@ -33,6 +35,7 @@
   var imagePreview = uploadForm.querySelector('.effect-image-preview');
   var effectLevelSlider = uploadForm.querySelector('.upload-effect-level');
   var effectLevelPin = effectLevelSlider.querySelector('.upload-effect-level-pin');
+  var effectLevelBar = effectLevelSlider.querySelector('.upload-effect-level-val');
   var lastEffectClass;
 
   // Переменные для масштабирования
@@ -130,10 +133,40 @@
   // Показ слайдера насыщенности для эффектов
   function showEffectsSlider() {
     effectLevelSlider.classList.remove('hidden');
+    effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
   }
   // Скрытие слайдера насыщенности для эффектов
   function hideEffectsSlider() {
     effectLevelSlider.classList.add('hidden');
+    effectLevelPin.removeEventListener('mousedown', onEffectPinMouseDown);
+  }
+  // Нажатие на пин мышью
+  function onEffectPinMouseDown(evt) {
+    evt.preventDefault();
+    var startX = evt.clientX;
+    var effectLineWidth = uploadForm.querySelector('.upload-effect-level-line').clientWidth;
+
+    // Перетаскивание пина
+    function onEffectPinMouseMove(moveEvt) {
+      moveEvt.preventDefault();
+      var shiftX = startX - moveEvt.clientX;
+      var pinPositionInPercent = ((effectLevelPin.offsetLeft - shiftX) / effectLineWidth) * 100;
+      if (pinPositionInPercent > 100 || pinPositionInPercent < 0) {
+        return;
+      }
+      startX = moveEvt.clientX;
+      effectLevelPin.style.left = pinPositionInPercent.toFixed(taskParameters.effectPinPositionPrecision) + taskParameters.effectLineUnit;
+    }
+    // Отпускание кнопки мыши на пине
+    function onEffectPinMouseUp(upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onEffectPinMouseMove);
+      document.removeEventListener('mouseup', onEffectPinMouseUp);
+    }
+
+    document.addEventListener('mousemove', onEffectPinMouseMove);
+    document.addEventListener('mouseup', onEffectPinMouseUp);
   }
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
