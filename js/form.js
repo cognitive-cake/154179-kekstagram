@@ -197,7 +197,7 @@
         pinPositionInPercent = 0;
       }
 
-      setEffect(pinPositionInPercent);
+      setEffectAndMovePin(pinPositionInPercent);
     }
     // Отпускание кнопки мыши на пине
     function onEffectPinMouseUp(upEvt) {
@@ -211,7 +211,7 @@
     document.addEventListener('mouseup', onEffectPinMouseUp);
   }
   // Применение эффекта
-  function setEffect(value) {
+  function setEffectAndMovePin(value) {
     var filter = findCurrentEffect();
     setPinPosition(value);
     setFilterValueForPreview(filter, value);
