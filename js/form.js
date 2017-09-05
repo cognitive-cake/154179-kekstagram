@@ -10,13 +10,51 @@
     radixForScaleValue: 10
   };
   var hashTagsValidation = {
-    optionalField: 'optional',
     firstChar: '#',
     regExpFirstChar: /#/g,
     tagsSeparator: ' ',
     maxTagsAmount: 5,
     maxOneTagLength: 20,
     errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и состоит из одного слова. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
+  };
+  var effectsParameters = {
+    defaultEffectClass: 'effect-none',
+    defaultEffectValue: 100,
+    effectLineUnit: '%',
+    effectPinPositionPrecision: 1,
+    effectPreviewPrecision: 2,
+    effectClassIndex: 1,
+
+    effectChrome: {
+      class: 'effect-chrome',
+      property: 'grayscale',
+      maxValue: 1,
+      units: ''
+    },
+    effectSepia: {
+      class: 'effect-sepia',
+      property: 'sepia',
+      maxValue: 1,
+      units: ''
+    },
+    effectMarvin: {
+      class: 'effect-marvin',
+      property: 'invert',
+      maxValue: 100,
+      units: '%'
+    },
+    effectPhobos: {
+      class: 'effect-phobos',
+      property: 'blur',
+      maxValue: 3,
+      units: 'px'
+    },
+    effectHeat: {
+      class: 'effect-heat',
+      property: 'brightness',
+      maxValue: 3,
+      units: ''
+    },
   };
 
   // Переменные для показа/сокрытия формы
@@ -30,6 +68,9 @@
   // Переменные для эффектов
   var effectFieldset = uploadForm.querySelector('.upload-effect-controls');
   var imagePreview = uploadForm.querySelector('.effect-image-preview');
+  var effectLevelSlider = uploadForm.querySelector('.upload-effect-level');
+  var effectLevelPin = effectLevelSlider.querySelector('.upload-effect-level-pin');
+  var effectLevelBar = effectLevelSlider.querySelector('.upload-effect-level-val');
   var lastEffectClass;
 
   // Переменные для масштабирования
@@ -114,9 +155,106 @@
   // Применение эффекта к фотографии
   function addEffectToPhoto(clickTarget) {
     var effectName = clickTarget.getAttribute('for').slice(taskParameters.beginSliceIndex);
+
     imagePreview.classList.remove(lastEffectClass);
     lastEffectClass = effectName;
     imagePreview.classList.add(effectName);
+
+    showEffectsSlider();
+    if (imagePreview.classList.contains(effectsParameters.defaultEffectClass)) {
+      hideEffectsSlider();
+    }
+  }
+  // Показ слайдера насыщенности для эффектов
+  function showEffectsSlider() {
+    setEffectAndMovePin(effectsParameters.defaultEffectValue);
+    effectLevelSlider.classList.remove('hidden');
+    effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
+  }
+  // Скрытие слайдера насыщенности для эффектов
+  function hideEffectsSlider() {
+    effectLevelSlider.classList.add('hidden');
+    effectLevelPin.removeEventListener('mousedown', onEffectPinMouseDown);
+  }
+  // Нажатие на пин мышью
+  function onEffectPinMouseDown(evt) {
+    evt.preventDefault();
+    var startX = evt.clientX;
+    var effectLineWidth = uploadForm.querySelector('.upload-effect-level-line').clientWidth;
+
+    // Перетаскивание пина
+    function onEffectPinMouseMove(moveEvt) {
+      moveEvt.preventDefault();
+
+      var shiftX = startX - moveEvt.clientX;
+      var pinPositionInPercent = ((effectLevelPin.offsetLeft - shiftX) / effectLineWidth) * 100;
+      startX = moveEvt.clientX;
+
+      if (pinPositionInPercent > 100) {
+        pinPositionInPercent = 100;
+      }
+      if (pinPositionInPercent < 0) {
+        pinPositionInPercent = 0;
+      }
+
+      setEffectAndMovePin(pinPositionInPercent);
+    }
+    // Отпускание кнопки мыши на пине
+    function onEffectPinMouseUp(upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onEffectPinMouseMove);
+      document.removeEventListener('mouseup', onEffectPinMouseUp);
+    }
+
+    document.addEventListener('mousemove', onEffectPinMouseMove);
+    document.addEventListener('mouseup', onEffectPinMouseUp);
+  }
+  // Применение эффекта
+  function setEffectAndMovePin(value) {
+    var filter = findCurrentEffect();
+    setPinPosition(value);
+    setFilterValueForPreview(filter, value);
+  }
+  // Нахождение текущего эффекта
+  function findCurrentEffect() {
+    var currentEffect;
+    switch (imagePreview.classList[effectsParameters.effectClassIndex]) {
+      case effectsParameters.effectChrome.class:
+        currentEffect = effectsParameters.effectChrome;
+        break;
+      case effectsParameters.effectSepia.class:
+        currentEffect = effectsParameters.effectSepia;
+        break;
+      case effectsParameters.effectMarvin.class:
+        currentEffect = effectsParameters.effectMarvin;
+        break;
+      case effectsParameters.effectPhobos.class:
+        currentEffect = effectsParameters.effectPhobos;
+        break;
+      case effectsParameters.effectHeat.class:
+        currentEffect = effectsParameters.effectHeat;
+        break;
+      default:
+        currentEffect = effectsParameters.defaultEffectClass;
+    }
+    return currentEffect;
+  }
+  // Установка положения для слайдера
+  function setPinPosition(value) {
+    var pinPositionString = value.toFixed(effectsParameters.effectPinPositionPrecision) + effectsParameters.effectLineUnit;
+    effectLevelPin.style.left = pinPositionString;
+    effectLevelPin.setAttribute('title', pinPositionString);
+    effectLevelBar.style.width = pinPositionString;
+  }
+  // Установка значения filter для текущего эффекта
+  function setFilterValueForPreview(effect, value) {
+    if (effect === effectsParameters.defaultEffectClass) {
+      imagePreview.style.filter = '';
+      return;
+    }
+    var valueInDecimal = value / 100;
+    imagePreview.style.filter = effect.property + '(' + (valueInDecimal * effect.maxValue).toFixed(effectsParameters.effectPreviewPrecision) + effect.units + ')';
   }
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
