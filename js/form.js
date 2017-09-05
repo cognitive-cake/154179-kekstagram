@@ -167,7 +167,7 @@
   }
   // Показ слайдера насыщенности для эффектов
   function showEffectsSlider() {
-    setEffect(effectsParameters.defaultEffectValue);
+    setEffectAndMovePin(effectsParameters.defaultEffectValue);
     effectLevelSlider.classList.remove('hidden');
     effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
   }
