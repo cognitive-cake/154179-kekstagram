@@ -2,12 +2,12 @@
 
 (function () {
   var taskParameters = {
-    minScale: 25,
-    maxScale: 100,
-    scaleStep: 25,
-    scaleUnits: '%',
-    radixForScaleValue: 10,
-    resizeControlsClass: 'upload-resize-controls-button',
+    minValue: 25,
+    maxValue: 100,
+    changeStep: 25,
+    changeUnits: '%',
+    radixForChangeValue: 10,
+    mainElementClass: 'upload-resize-controls-button',
     incBtnClass: 'upload-resize-controls-button-inc',
     decBtnClass: 'upload-resize-controls-button-dec'
   };

@@ -3,7 +3,7 @@
 window.initializeScale = function (clickTarget, currentValue, taskParameters, adjustValue) {
   // Выяснение, является ли цель клика нужной кнопкой
   function isChangeButton() {
-    return clickTarget.classList.contains(taskParameters.resizeControlsClass);
+    return clickTarget.classList.contains(taskParameters.mainElementClass);
   }
   // Если клик на кнопке "+"
   function isIncButton() {
@@ -15,18 +15,18 @@ window.initializeScale = function (clickTarget, currentValue, taskParameters, ad
   }
   // Увеличение значения
   function increaseValue() {
-    if (currentValue === taskParameters.maxScale) {
+    if (currentValue === taskParameters.maxValue) {
       return;
     }
-    var newValue = currentValue + taskParameters.scaleStep;
+    var newValue = currentValue + taskParameters.changeStep;
     adjustValue(newValue);
   }
   // Уменьшение значения
   function decreaseValue() {
-    if (currentValue === taskParameters.minScale) {
+    if (currentValue === taskParameters.minValue) {
       return;
     }
-    var newValue = currentValue - taskParameters.scaleStep;
+    var newValue = currentValue - taskParameters.changeStep;
     adjustValue(newValue);
   }
 
