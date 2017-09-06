@@ -6,7 +6,10 @@
     maxScale: 100,
     scaleStep: 25,
     scaleUnits: '%',
-    radixForScaleValue: 10
+    radixForScaleValue: 10,
+    resizeControlsClass: 'upload-resize-controls-button',
+    incBtnClass: 'upload-resize-controls-button-inc',
+    decBtnClass: 'upload-resize-controls-button-dec'
   };
   var hashTagsValidation = {
     firstChar: '#',
@@ -261,48 +264,15 @@
   // Клик в области кнопок масштабирования
   function onResizeControlsClick(event) {
     var clickTarget = event.target;
-    if (isResizeButton(clickTarget)) {
-      var currentValue = getCurrentScaleValue();
-      if (isIncButton(clickTarget)) {
-        increaseScale(currentValue);
-        return;
-      } else if (isDecButton(clickTarget)) {
-        decreaseScale(currentValue);
-        return;
-      }
-    }
-  }
-  // Нахождение кнопки
-  function isResizeButton(clickTarget) {
-    return clickTarget.classList.contains('upload-resize-controls-button');
+    var currentValue = getCurrentScaleValue();
+    window.initializeScale(clickTarget, currentValue, taskParameters, adjustScale);
   }
   // Нахождение текущего значения масштаба
   function getCurrentScaleValue() {
     return parseInt(resizeValue.getAttribute('value'), taskParameters.radixForScaleValue);
   }
-  // Если клик на кнопке "+"
-  function isIncButton(clickTarget) {
-    return clickTarget.classList.contains('upload-resize-controls-button-inc');
-  }
-  // Если клик на кнопке "-"
-  function isDecButton(clickTarget) {
-    return clickTarget.classList.contains('upload-resize-controls-button-dec');
-  }
-  // Увеличение масштаба
-  function increaseScale(currentValue) {
-    if (currentValue === taskParameters.maxScale) {
-      return;
-    }
-    var newValue = currentValue + taskParameters.scaleStep;
-    resizeValue.setAttribute('value', newValue + taskParameters.scaleUnits);
-    imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
-  }
-  // Уменьшение масштаба
-  function decreaseScale(currentValue) {
-    if (currentValue === taskParameters.minScale) {
-      return;
-    }
-    var newValue = currentValue - taskParameters.scaleStep;
+  // Применение нового значения масштаба
+  function adjustScale(newValue) {
     resizeValue.setAttribute('value', newValue + taskParameters.scaleUnits);
     imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
   }
