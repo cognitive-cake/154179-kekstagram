@@ -261,16 +261,6 @@
   }
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
-  // Клик в области кнопок масштабирования
-  function onResizeControlsClick(event) {
-    var clickTarget = event.target;
-    var currentValue = getCurrentScaleValue();
-    window.initializeScale(clickTarget, currentValue, taskParameters, adjustScale);
-  }
-  // Нахождение текущего значения масштаба
-  function getCurrentScaleValue() {
-    return parseInt(resizeValue.getAttribute('value'), taskParameters.radixForChangeValue);
-  }
   // Применение нового значения масштаба
   function adjustScale(newValue) {
     resizeValue.setAttribute('value', newValue + taskParameters.changeUnits);

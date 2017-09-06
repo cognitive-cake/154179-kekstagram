@@ -1,6 +1,24 @@
 'use strict';
 
-window.initializeScale = function (clickTarget, currentValue, taskParameters, adjustValue) {
+window.initializeScale = (function () {
+  // Клик в области кнопок масштабирования
+  function onControlElementClick(event) {
+    var clickTarget = event.target;
+    if (isChangeButton(clickTarget)) {
+      var currentValue = getCurrentScaleValue();
+      if (isIncButton(clickTarget)) {
+        increaseValue(currentValue);
+        return;
+      } else if (isDecButton(clickTarget)) {
+        decreaseValue(currentValue);
+        return;
+      }
+    }
+  }
+  // Нахождение текущего значения масштаба
+  function getCurrentScaleValue() {
+    return parseInt(resizeValue.getAttribute('value'), taskParameters.radixForChangeValue);
+  }
   // Выяснение, является ли цель клика нужной кнопкой
   function isChangeButton() {
     return clickTarget.classList.contains(taskParameters.mainElementClass);
@@ -19,7 +37,7 @@ window.initializeScale = function (clickTarget, currentValue, taskParameters, ad
       return;
     }
     var newValue = currentValue + taskParameters.changeStep;
-    adjustValue(newValue);
+    adjustValueFunc(newValue);
   }
   // Уменьшение значения
   function decreaseValue() {
@@ -27,17 +45,13 @@ window.initializeScale = function (clickTarget, currentValue, taskParameters, ad
       return;
     }
     var newValue = currentValue - taskParameters.changeStep;
-    adjustValue(newValue);
+    adjustValueFunc(newValue);
+  }
+
+  function initializeScale(target, callback) {
+    target.addEventListener('click', );
   }
 
   // Выполнение скрипта
-  if (isChangeButton(clickTarget)) {
-    if (isIncButton(clickTarget)) {
-      increaseValue(currentValue);
-      return;
-    } else if (isDecButton(clickTarget)) {
-      decreaseValue(currentValue);
-      return;
-    }
-  }
-};
+
+})();
