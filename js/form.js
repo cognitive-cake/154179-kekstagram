@@ -269,11 +269,11 @@
   }
   // Нахождение текущего значения масштаба
   function getCurrentScaleValue() {
-    return parseInt(resizeValue.getAttribute('value'), taskParameters.radixForScaleValue);
+    return parseInt(resizeValue.getAttribute('value'), taskParameters.radixForChangeValue);
   }
   // Применение нового значения масштаба
   function adjustScale(newValue) {
-    resizeValue.setAttribute('value', newValue + taskParameters.scaleUnits);
+    resizeValue.setAttribute('value', newValue + taskParameters.changeUnits);
     imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
   }
   // ^^^ Изменение масштаба изображения ^^^
