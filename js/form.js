@@ -143,9 +143,7 @@
   // --- Применение эффекта к изображению ---
 
   // Применение эффекта к фотографии
-  function addEffectToPhoto(clickTarget) {
-    var effectName = clickTarget.getAttribute('for').slice(effectsParameters.beginSliceIndex);
-
+  function addEffectToPhoto(clickTarget, effectName) {
     imagePreview.classList.remove(lastEffectClass);
     lastEffectClass = effectName;
     imagePreview.classList.add(effectName);
