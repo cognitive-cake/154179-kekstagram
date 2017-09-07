@@ -9,7 +9,8 @@
     radixForChangeValue: 10,
     mainElementClass: 'upload-resize-controls-button',
     incBtnClass: 'upload-resize-controls-button-inc',
-    decBtnClass: 'upload-resize-controls-button-dec'
+    decBtnClass: 'upload-resize-controls-button-dec',
+    scaleValueClass: 'upload-resize-controls-value'
   };
   var hashTagsValidation = {
     firstChar: '#',
@@ -99,7 +100,7 @@
     uploadComment.addEventListener('focus', onCommentFocusing);
     uploadComment.addEventListener('input', onCommentInput);
     effectFieldset.addEventListener('click', onEffectFieldsetClick);
-    resizeControls.addEventListener('click', onResizeControlsClick);
+    // resizeControls.addEventListener('click', onResizeControlsClick);
     submitButton.addEventListener('click', onSubmitClick);
 
     photoContainer.removeEventListener('click', window.gallery.onPictureClick);
@@ -112,7 +113,7 @@
     uploadComment.removeEventListener('focus', onCommentFocusing);
     uploadComment.removeEventListener('input', onCommentInput);
     effectFieldset.removeEventListener('click', onEffectFieldsetClick);
-    resizeControls.removeEventListener('click', onResizeControlsClick);
+    // resizeControls.removeEventListener('click', onResizeControlsClick);
     submitButton.removeEventListener('click', onSubmitClick);
 
     photoContainer.addEventListener('click', window.gallery.onPictureClick);
@@ -266,6 +267,7 @@
     resizeValue.setAttribute('value', newValue + taskParameters.changeUnits);
     imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
   }
+  window.initializeScale(resizeControls, adjustScale, taskParameters);
   // ^^^ Изменение масштаба изображения ^^^
   // --- Валидация хэш-тегов ---
   // Клик на кнопке отправки формы
