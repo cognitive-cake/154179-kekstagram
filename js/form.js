@@ -2,15 +2,7 @@
 
 (function () {
   var taskParameters = {
-    minValue: 25,
-    maxValue: 100,
-    changeStep: 25,
-    changeUnits: '%',
-    radixForChangeValue: 10,
-    mainElementClass: 'upload-resize-controls-button',
-    incBtnClass: 'upload-resize-controls-button-inc',
-    decBtnClass: 'upload-resize-controls-button-dec',
-    scaleValueClass: 'upload-resize-controls-value'
+    changeUnits: '%'
   };
   var hashTagsValidation = {
     firstChar: '#',

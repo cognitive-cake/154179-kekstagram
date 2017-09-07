@@ -5,7 +5,6 @@ window.initializeScale = (function () {
     minValue: 25,
     maxValue: 100,
     changeStep: 25,
-    changeUnits: '%',
     radixForChangeValue: 10,
     mainElementClass: 'upload-resize-controls-button',
     incBtnClass: 'upload-resize-controls-button-inc',
