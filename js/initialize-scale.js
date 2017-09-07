@@ -6,36 +6,26 @@ window.initializeScale = (function () {
     maxValue: 100,
     changeStep: 25,
     radixForChangeValue: 10,
-    mainElementClass: 'upload-resize-controls-button',
+    changeUnits: '%',
     incBtnClass: 'upload-resize-controls-button-inc',
     decBtnClass: 'upload-resize-controls-button-dec',
     scaleValueClass: 'upload-resize-controls-value'
   };
 
+  var resizeInput = document.querySelector('.' + taskParameters.scaleValueClass);
+  var currentValue = parseInt(resizeInput.getAttribute('value'), taskParameters.radixForChangeValue);
+
   // Клик в области кнопок масштабирования
   function onControlElementClick(event, callback) {
     var clickTarget = event.target;
-    if (isChangeButton(clickTarget)) {
-      var currentValue = getCurrentScaleValue();
-      if (isIncButton(clickTarget)) {
-        increaseValue(currentValue, callback);
-        return;
-      } else if (isDecButton(clickTarget)) {
-        decreaseValue(currentValue, callback);
-        return;
-      }
+    if (isIncButton(clickTarget) && isInRange(currentValue)) {
+      currentValue += taskParameters.changeStep;
+    } else if (isDecButton(clickTarget) && isInRange(currentValue)) {
+      currentValue -= taskParameters.changeStep;
+
+      resizeInput.setAttribute('value', currentValue + taskParameters.changeUnits);
+      callback(currentValue);
     }
-  }
-
-  // Нахождение текущего значения масштаба
-  function getCurrentScaleValue() {
-    var resizeValue = document.querySelector('.' + taskParameters.scaleValueClass);
-    return parseInt(resizeValue.getAttribute('value'), taskParameters.radixForChangeValue);
-  }
-
-  // Выяснение, является ли цель клика нужной кнопкой
-  function isChangeButton(clickTarget) {
-    return clickTarget.classList.contains(taskParameters.mainElementClass);
   }
 
   // Если клик на кнопке "+"
@@ -48,22 +38,8 @@ window.initializeScale = (function () {
     return clickTarget.classList.contains(taskParameters.decBtnClass);
   }
 
-  // Увеличение значения
-  function increaseValue(currentValue, callback) {
-    if (currentValue === taskParameters.maxValue) {
-      return;
-    }
-    var newValue = currentValue + taskParameters.changeStep;
-    callback(newValue);
-  }
-
-  // Уменьшение значения
-  function decreaseValue(currentValue, callback) {
-    if (currentValue === taskParameters.minValue) {
-      return;
-    }
-    var newValue = currentValue - taskParameters.changeStep;
-    callback(newValue);
+  function isInRange() {
+    return currentValue > taskParameters.minValue && currentValue < taskParameters.maxValue;
   }
 
   return function initializeScale(target, callback) {

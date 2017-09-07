@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  var taskParameters = {
-    changeUnits: '%'
-  };
   var hashTagsValidation = {
     firstChar: '#',
     regExpFirstChar: /#/g,
@@ -71,7 +68,6 @@
 
   // Переменные для масштабирования
   var resizeControls = uploadForm.querySelector('.upload-resize-controls');
-  var resizeValue = resizeControls.querySelector('.upload-resize-controls-value');
 
   // Переменные для хэш-тегов
   var hashTagInput = uploadForm.querySelector('.upload-form-hashtags');
@@ -261,12 +257,11 @@
 
   // Применение нового значения масштаба
   function adjustScale(newValue) {
-    resizeValue.setAttribute('value', newValue + taskParameters.changeUnits);
     imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
   }
 
   // Вызов модуля и передача ему callback-функции
-  window.initializeScale(resizeControls, adjustScale, taskParameters);
+  window.initializeScale(resizeControls, adjustScale);
 
   // ^^^ Изменение масштаба изображения ^^^
   // --- Валидация хэш-тегов ---
