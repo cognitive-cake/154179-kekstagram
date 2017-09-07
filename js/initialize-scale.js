@@ -18,14 +18,13 @@ window.initializeScale = (function () {
   // Клик в области кнопок масштабирования
   function onControlElementClick(event, callback) {
     var clickTarget = event.target;
-    if (isIncButton(clickTarget) && isInRange(currentValue)) {
+    if (isIncButton(clickTarget) && currentValue !== taskParameters.maxValue) {
       currentValue += taskParameters.changeStep;
-    } else if (isDecButton(clickTarget) && isInRange(currentValue)) {
+    } else if (isDecButton(clickTarget) && currentValue !== taskParameters.minValue) {
       currentValue -= taskParameters.changeStep;
-
-      resizeInput.setAttribute('value', currentValue + taskParameters.changeUnits);
-      callback(currentValue);
     }
+    resizeInput.setAttribute('value', currentValue + taskParameters.changeUnits);
+    callback(currentValue);
   }
 
   // Если клик на кнопке "+"
@@ -36,10 +35,6 @@ window.initializeScale = (function () {
   // Если клик на кнопке "-"
   function isDecButton(clickTarget) {
     return clickTarget.classList.contains(taskParameters.decBtnClass);
-  }
-
-  function isInRange() {
-    return currentValue > taskParameters.minValue && currentValue < taskParameters.maxValue;
   }
 
   return function initializeScale(target, callback) {
