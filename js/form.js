@@ -84,6 +84,7 @@
 
   // --------- Обработчики событий ---------
   // --- Показ/сокрытие формы ---
+
   // Открытие формы кадрирования
   function uploadOpen() {
     uploadOverlay.classList.remove('hidden');
@@ -91,12 +92,13 @@
     document.addEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.addEventListener('focus', onCommentFocusing);
     uploadComment.addEventListener('input', onCommentInput);
-    effectFieldset.addEventListener('click', onEffectFieldsetClick);
+    // effectFieldset.addEventListener('click', onEffectFieldsetClick);
     // resizeControls.addEventListener('click', onResizeControlsClick);
     submitButton.addEventListener('click', onSubmitClick);
 
     photoContainer.removeEventListener('click', window.gallery.onPictureClick);
   }
+
   // Закрытие формы кадрирования
   function uploadClose() {
     uploadOverlay.classList.add('hidden');
@@ -104,20 +106,23 @@
     document.removeEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.removeEventListener('focus', onCommentFocusing);
     uploadComment.removeEventListener('input', onCommentInput);
-    effectFieldset.removeEventListener('click', onEffectFieldsetClick);
+    // effectFieldset.removeEventListener('click', onEffectFieldsetClick);
     // resizeControls.removeEventListener('click', onResizeControlsClick);
     submitButton.removeEventListener('click', onSubmitClick);
 
     photoContainer.addEventListener('click', window.gallery.onPictureClick);
   }
+
   // Загрузка фотографии
   function onPhotoUpload(event) {
     uploadOpen();
   }
+
   // Клик на кнопке закрытия формы кадрирования
   function onCloseCrossClick(event) {
     uploadClose();
   }
+
   // Нажатие на ESC при показанной форме кадрирования
   function onUploadOverlayEscPress(event) {
     var keyCode = event.keyCode;
@@ -125,29 +130,22 @@
       uploadClose();
     }
   }
+
   // Фокус на поле для комментария
   function onCommentFocusing(event) {
     document.removeEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.addEventListener('blur', onCommentDefocusing);
   }
+
   // Фокус с поля для комментария снят
   function onCommentDefocusing(event) {
     document.addEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.removeEventListener('blur', onCommentDefocusing);
   }
+
   // ^^^ Показ/сокрытие формы ^^^
   // --- Применение эффекта к изображению ---
-  // Клик в поле с эффектами
-  function onEffectFieldsetClick(event) {
-    var clickTarget = event.target;
-    while (clickTarget !== effectFieldset) {
-      if (clickTarget.classList.contains('upload-effect-label')) {
-        addEffectToPhoto(clickTarget);
-        break;
-      }
-      clickTarget = clickTarget.parentElement;
-    }
-  }
+
   // Применение эффекта к фотографии
   function addEffectToPhoto(clickTarget) {
     var effectName = clickTarget.getAttribute('for').slice(effectsParameters.beginSliceIndex);
@@ -161,17 +159,20 @@
       hideEffectsSlider();
     }
   }
+
   // Показ слайдера насыщенности для эффектов
   function showEffectsSlider() {
     setEffectAndMovePin(effectsParameters.defaultEffectValue);
     effectLevelSlider.classList.remove('hidden');
     effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
   }
+
   // Скрытие слайдера насыщенности для эффектов
   function hideEffectsSlider() {
     effectLevelSlider.classList.add('hidden');
     effectLevelPin.removeEventListener('mousedown', onEffectPinMouseDown);
   }
+
   // Нажатие на пин мышью
   function onEffectPinMouseDown(evt) {
     evt.preventDefault();
@@ -195,6 +196,7 @@
 
       setEffectAndMovePin(pinPositionInPercent);
     }
+
     // Отпускание кнопки мыши на пине
     function onEffectPinMouseUp(upEvt) {
       upEvt.preventDefault();
@@ -206,12 +208,14 @@
     document.addEventListener('mousemove', onEffectPinMouseMove);
     document.addEventListener('mouseup', onEffectPinMouseUp);
   }
+
   // Применение эффекта
   function setEffectAndMovePin(value) {
     var filter = findCurrentEffect();
     setPinPosition(value);
     setFilterValueForPreview(filter, value);
   }
+
   // Нахождение текущего эффекта
   function findCurrentEffect() {
     var currentEffect;
@@ -236,6 +240,7 @@
     }
     return currentEffect;
   }
+
   // Установка положения для слайдера
   function setPinPosition(value) {
     var pinPositionString = value.toFixed(effectsParameters.effectPinPositionPrecision) + effectsParameters.effectLineUnit;
@@ -243,6 +248,7 @@
     effectLevelPin.setAttribute('title', pinPositionString);
     effectLevelBar.style.width = pinPositionString;
   }
+
   // Установка значения filter для текущего эффекта
   function setFilterValueForPreview(effect, value) {
     if (effect === effectsParameters.defaultEffectClass) {
@@ -252,22 +258,32 @@
     var valueInDecimal = value / 100;
     imagePreview.style.filter = effect.property + '(' + (valueInDecimal * effect.maxValue).toFixed(effectsParameters.effectPreviewPrecision) + effect.units + ')';
   }
+
+  // Вызов модуля и передача ему callback-функции
+  window.initializeFilters(effectFieldset, addEffectToPhoto);
+
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
+
   // Применение нового значения масштаба
   function adjustScale(newValue) {
     resizeValue.setAttribute('value', newValue + taskParameters.changeUnits);
     imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
   }
+
+  // Вызов модуля и передача ему callback-функции
   window.initializeScale(resizeControls, adjustScale, taskParameters);
+
   // ^^^ Изменение масштаба изображения ^^^
   // --- Валидация хэш-тегов ---
+
   // Клик на кнопке отправки формы
   function onSubmitClick(event) {
     window.tools.unsetInvalidClass(hashTagInput);
     hashTagInput.setCustomValidity('');
     checkHashTagsValidity();
   }
+
   // Валидация строки с хэш-тегами
   function checkHashTagsValidity() {
     var arrayOfValues = hashTagInput.value.split(hashTagsValidation.tagsSeparator);
@@ -298,14 +314,17 @@
       hashTagInput.setCustomValidity(hashTagsValidation.errorMessage);
     }
   }
+
   // ^^^ Валидация хэш-тегов ^^^
   // --- Валидация комментария ---
+
   function onCommentInput(event) {
     window.tools.unsetInvalidClass(uploadComment);
     if (!uploadComment.checkValidity()) {
       window.tools.setInvalidClass(uploadComment);
     }
   }
+
   // ^^^ Валидация комментария ^^^
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 

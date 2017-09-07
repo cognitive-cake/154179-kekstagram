@@ -11,6 +11,7 @@ window.initializeScale = (function () {
     decBtnClass: 'upload-resize-controls-button-dec',
     scaleValueClass: 'upload-resize-controls-value'
   };
+
   // Клик в области кнопок масштабирования
   function onControlElementClick(event, callback) {
     var clickTarget = event.target;
@@ -25,23 +26,28 @@ window.initializeScale = (function () {
       }
     }
   }
+
   // Нахождение текущего значения масштаба
   function getCurrentScaleValue() {
     var resizeValue = document.querySelector('.' + taskParameters.scaleValueClass);
     return parseInt(resizeValue.getAttribute('value'), taskParameters.radixForChangeValue);
   }
+
   // Выяснение, является ли цель клика нужной кнопкой
   function isChangeButton(clickTarget) {
     return clickTarget.classList.contains(taskParameters.mainElementClass);
   }
+
   // Если клик на кнопке "+"
   function isIncButton(clickTarget) {
     return clickTarget.classList.contains(taskParameters.incBtnClass);
   }
+
   // Если клик на кнопке "-"
   function isDecButton(clickTarget) {
     return clickTarget.classList.contains(taskParameters.decBtnClass);
   }
+
   // Увеличение значения
   function increaseValue(currentValue, callback) {
     if (currentValue === taskParameters.maxValue) {
@@ -50,6 +56,7 @@ window.initializeScale = (function () {
     var newValue = currentValue + taskParameters.changeStep;
     callback(newValue);
   }
+
   // Уменьшение значения
   function decreaseValue(currentValue, callback) {
     if (currentValue === taskParameters.minValue) {
@@ -61,7 +68,7 @@ window.initializeScale = (function () {
 
   return function initializeScale(target, callback) {
     target.addEventListener('click', function (event) {
-      onControlElementClick(event, callback, taskParameters);
+      onControlElementClick(event, callback);
     });
   };
 
