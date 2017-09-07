@@ -92,8 +92,6 @@
     document.addEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.addEventListener('focus', onCommentFocusing);
     uploadComment.addEventListener('input', onCommentInput);
-    // effectFieldset.addEventListener('click', onEffectFieldsetClick);
-    // resizeControls.addEventListener('click', onResizeControlsClick);
     submitButton.addEventListener('click', onSubmitClick);
 
     photoContainer.removeEventListener('click', window.gallery.onPictureClick);
@@ -106,8 +104,6 @@
     document.removeEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.removeEventListener('focus', onCommentFocusing);
     uploadComment.removeEventListener('input', onCommentInput);
-    // effectFieldset.removeEventListener('click', onEffectFieldsetClick);
-    // resizeControls.removeEventListener('click', onResizeControlsClick);
     submitButton.removeEventListener('click', onSubmitClick);
 
     photoContainer.addEventListener('click', window.gallery.onPictureClick);
