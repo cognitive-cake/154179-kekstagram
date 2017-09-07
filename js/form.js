@@ -1,14 +1,6 @@
 'use strict';
 
 (function () {
-  var taskParameters = {
-    beginSliceIndex: 7, // первый параметр для метода .slice(). Применяется к строке наподобие 'upload-effect-chrome'
-    minScale: 25,
-    maxScale: 100,
-    scaleStep: 25,
-    scaleUnits: '%',
-    radixForScaleValue: 10
-  };
   var hashTagsValidation = {
     firstChar: '#',
     regExpFirstChar: /#/g,
@@ -18,6 +10,7 @@
     errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и состоит из одного слова. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
   };
   var effectsParameters = {
+    beginSliceIndex: 7, // первый параметр для метода .slice(). Применяется к строке наподобие 'upload-effect-chrome'
     defaultEffectClass: 'effect-none',
     defaultEffectValue: 100,
     effectLineUnit: '%',
@@ -75,7 +68,6 @@
 
   // Переменные для масштабирования
   var resizeControls = uploadForm.querySelector('.upload-resize-controls');
-  var resizeValue = resizeControls.querySelector('.upload-resize-controls-value');
 
   // Переменные для хэш-тегов
   var hashTagInput = uploadForm.querySelector('.upload-form-hashtags');
@@ -88,6 +80,7 @@
 
   // --------- Обработчики событий ---------
   // --- Показ/сокрытие формы ---
+
   // Открытие формы кадрирования
   function uploadOpen() {
     uploadOverlay.classList.remove('hidden');
@@ -95,12 +88,11 @@
     document.addEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.addEventListener('focus', onCommentFocusing);
     uploadComment.addEventListener('input', onCommentInput);
-    effectFieldset.addEventListener('click', onEffectFieldsetClick);
-    resizeControls.addEventListener('click', onResizeControlsClick);
     submitButton.addEventListener('click', onSubmitClick);
 
     photoContainer.removeEventListener('click', window.gallery.onPictureClick);
   }
+
   // Закрытие формы кадрирования
   function uploadClose() {
     uploadOverlay.classList.add('hidden');
@@ -108,20 +100,21 @@
     document.removeEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.removeEventListener('focus', onCommentFocusing);
     uploadComment.removeEventListener('input', onCommentInput);
-    effectFieldset.removeEventListener('click', onEffectFieldsetClick);
-    resizeControls.removeEventListener('click', onResizeControlsClick);
     submitButton.removeEventListener('click', onSubmitClick);
 
     photoContainer.addEventListener('click', window.gallery.onPictureClick);
   }
+
   // Загрузка фотографии
   function onPhotoUpload(event) {
     uploadOpen();
   }
+
   // Клик на кнопке закрытия формы кадрирования
   function onCloseCrossClick(event) {
     uploadClose();
   }
+
   // Нажатие на ESC при показанной форме кадрирования
   function onUploadOverlayEscPress(event) {
     var keyCode = event.keyCode;
@@ -129,33 +122,24 @@
       uploadClose();
     }
   }
+
   // Фокус на поле для комментария
   function onCommentFocusing(event) {
     document.removeEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.addEventListener('blur', onCommentDefocusing);
   }
+
   // Фокус с поля для комментария снят
   function onCommentDefocusing(event) {
     document.addEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.removeEventListener('blur', onCommentDefocusing);
   }
+
   // ^^^ Показ/сокрытие формы ^^^
   // --- Применение эффекта к изображению ---
-  // Клик в поле с эффектами
-  function onEffectFieldsetClick(event) {
-    var clickTarget = event.target;
-    while (clickTarget !== effectFieldset) {
-      if (clickTarget.classList.contains('upload-effect-label')) {
-        addEffectToPhoto(clickTarget);
-        break;
-      }
-      clickTarget = clickTarget.parentElement;
-    }
-  }
-  // Применение эффекта к фотографии
-  function addEffectToPhoto(clickTarget) {
-    var effectName = clickTarget.getAttribute('for').slice(taskParameters.beginSliceIndex);
 
+  // Применение эффекта к фотографии
+  function addEffectToPhoto(clickTarget, effectName) {
     imagePreview.classList.remove(lastEffectClass);
     lastEffectClass = effectName;
     imagePreview.classList.add(effectName);
@@ -165,17 +149,20 @@
       hideEffectsSlider();
     }
   }
+
   // Показ слайдера насыщенности для эффектов
   function showEffectsSlider() {
     setEffectAndMovePin(effectsParameters.defaultEffectValue);
     effectLevelSlider.classList.remove('hidden');
     effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
   }
+
   // Скрытие слайдера насыщенности для эффектов
   function hideEffectsSlider() {
     effectLevelSlider.classList.add('hidden');
     effectLevelPin.removeEventListener('mousedown', onEffectPinMouseDown);
   }
+
   // Нажатие на пин мышью
   function onEffectPinMouseDown(evt) {
     evt.preventDefault();
@@ -199,6 +186,7 @@
 
       setEffectAndMovePin(pinPositionInPercent);
     }
+
     // Отпускание кнопки мыши на пине
     function onEffectPinMouseUp(upEvt) {
       upEvt.preventDefault();
@@ -210,12 +198,14 @@
     document.addEventListener('mousemove', onEffectPinMouseMove);
     document.addEventListener('mouseup', onEffectPinMouseUp);
   }
+
   // Применение эффекта
   function setEffectAndMovePin(value) {
     var filter = findCurrentEffect();
     setPinPosition(value);
     setFilterValueForPreview(filter, value);
   }
+
   // Нахождение текущего эффекта
   function findCurrentEffect() {
     var currentEffect;
@@ -240,6 +230,7 @@
     }
     return currentEffect;
   }
+
   // Установка положения для слайдера
   function setPinPosition(value) {
     var pinPositionString = value.toFixed(effectsParameters.effectPinPositionPrecision) + effectsParameters.effectLineUnit;
@@ -247,6 +238,7 @@
     effectLevelPin.setAttribute('title', pinPositionString);
     effectLevelBar.style.width = pinPositionString;
   }
+
   // Установка значения filter для текущего эффекта
   function setFilterValueForPreview(effect, value) {
     if (effect === effectsParameters.defaultEffectClass) {
@@ -256,64 +248,31 @@
     var valueInDecimal = value / 100;
     imagePreview.style.filter = effect.property + '(' + (valueInDecimal * effect.maxValue).toFixed(effectsParameters.effectPreviewPrecision) + effect.units + ')';
   }
+
+  // Вызов модуля и передача ему callback-функции
+  window.initializeFilters(effectFieldset, addEffectToPhoto);
+
   // ^^^ Применение эффекта к изображению ^^^
   // --- Изменение масштаба изображения ---
-  // Клик в области кнопок масштабирования
-  function onResizeControlsClick(event) {
-    var clickTarget = event.target;
-    if (isResizeButton(clickTarget)) {
-      var currentValue = getCurrentScaleValue();
-      if (isIncButton(clickTarget)) {
-        increaseScale(currentValue);
-        return;
-      } else if (isDecButton(clickTarget)) {
-        decreaseScale(currentValue);
-        return;
-      }
-    }
-  }
-  // Нахождение кнопки
-  function isResizeButton(clickTarget) {
-    return clickTarget.classList.contains('upload-resize-controls-button');
-  }
-  // Нахождение текущего значения масштаба
-  function getCurrentScaleValue() {
-    return parseInt(resizeValue.getAttribute('value'), taskParameters.radixForScaleValue);
-  }
-  // Если клик на кнопке "+"
-  function isIncButton(clickTarget) {
-    return clickTarget.classList.contains('upload-resize-controls-button-inc');
-  }
-  // Если клик на кнопке "-"
-  function isDecButton(clickTarget) {
-    return clickTarget.classList.contains('upload-resize-controls-button-dec');
-  }
-  // Увеличение масштаба
-  function increaseScale(currentValue) {
-    if (currentValue === taskParameters.maxScale) {
-      return;
-    }
-    var newValue = currentValue + taskParameters.scaleStep;
-    resizeValue.setAttribute('value', newValue + taskParameters.scaleUnits);
+
+  // Применение нового значения масштаба
+  function adjustScale(newValue) {
     imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
   }
-  // Уменьшение масштаба
-  function decreaseScale(currentValue) {
-    if (currentValue === taskParameters.minScale) {
-      return;
-    }
-    var newValue = currentValue - taskParameters.scaleStep;
-    resizeValue.setAttribute('value', newValue + taskParameters.scaleUnits);
-    imagePreview.style.transform = 'scale(' + newValue / 100 + ')';
-  }
+
+  // Вызов модуля и передача ему callback-функции
+  window.initializeScale(resizeControls, adjustScale);
+
   // ^^^ Изменение масштаба изображения ^^^
   // --- Валидация хэш-тегов ---
+
   // Клик на кнопке отправки формы
   function onSubmitClick(event) {
     window.tools.unsetInvalidClass(hashTagInput);
     hashTagInput.setCustomValidity('');
     checkHashTagsValidity();
   }
+
   // Валидация строки с хэш-тегами
   function checkHashTagsValidity() {
     var arrayOfValues = hashTagInput.value.split(hashTagsValidation.tagsSeparator);
@@ -344,14 +303,17 @@
       hashTagInput.setCustomValidity(hashTagsValidation.errorMessage);
     }
   }
+
   // ^^^ Валидация хэш-тегов ^^^
   // --- Валидация комментария ---
+
   function onCommentInput(event) {
     window.tools.unsetInvalidClass(uploadComment);
     if (!uploadComment.checkValidity()) {
       window.tools.setInvalidClass(uploadComment);
     }
   }
+
   // ^^^ Валидация комментария ^^^
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
