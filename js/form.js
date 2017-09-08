@@ -89,6 +89,7 @@
     uploadComment.addEventListener('focus', onCommentFocusing);
     uploadComment.addEventListener('input', onCommentInput);
     submitButton.addEventListener('click', onSubmitClick);
+    uploadForm.addEventListener('submit', onFormSubmit);
 
     photoContainer.removeEventListener('click', window.gallery.onPictureClick);
   }
@@ -101,6 +102,8 @@
     uploadComment.removeEventListener('focus', onCommentFocusing);
     uploadComment.removeEventListener('input', onCommentInput);
     submitButton.removeEventListener('click', onSubmitClick);
+    uploadForm.removeEventListener('submit', onFormSubmit);
+    uploadForm.reset();
 
     photoContainer.addEventListener('click', window.gallery.onPictureClick);
   }
@@ -315,6 +318,16 @@
   }
 
   // ^^^ Валидация комментария ^^^
+  // --- Передача формы на сервер ---
+
+  function onFormSubmit(event) {
+    event.preventDefault();
+    window.backend.save(new FormData(uploadForm), function (responseText) {
+      uploadClose();
+    });
+  }
+
+  // ^^^ Передача формы на сервер ^^^
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
   // Выполнение скрипта

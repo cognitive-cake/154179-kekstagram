@@ -2,6 +2,7 @@
 
 window.backend = (function () {
 
+  // Получение данных от сервера
   function load(onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -30,25 +31,26 @@ window.backend = (function () {
     xhr.send();
   }
 
+  // Отправка данных на сервер
   function save(data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.timeout = 10000;
 
-    xhr.addEventListener('event', function (event) {
-      // body...
+    xhr.addEventListener('load', function () {
+      onLoad(xhr.responseText);
     });
 
     xhr.open('POST', 'https://1510.dump.academy/kekstagram');
     xhr.send(data);
   }
 
-  function onLoad(responseText) {
+  // function onLoad(responseText) {
+  //
+  // }
 
-  }
-
-  function onError(errorMessage) {
-
-  }
+  // function onError(errorMessage) {
+  //
+  // }
 
   return {
     load: load,
