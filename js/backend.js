@@ -10,7 +10,7 @@ window.backend = (function () {
 
     xhr.addEventListener('load', function (event) {
       if (xhr.status === 200) {
-        onLoad(xhr.responseText);
+        onLoad(xhr.response);
       } else {
         onError('Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -22,8 +22,6 @@ window.backend = (function () {
       xhr.addEventListener('timeout', function (eventTimeout) {
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       });
-
-      xhr.timeout = 10000;
     });
 
 
@@ -38,6 +36,14 @@ window.backend = (function () {
 
     xhr.addEventListener('load', function () {
       onLoad(xhr.responseText);
+
+      xhr.addEventListener('error', function (eventError) {
+        onError('Произошла ошибка соединения');
+      });
+
+      xhr.addEventListener('timeout', function (eventTimeout) {
+        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      });
     });
 
     xhr.open('POST', 'https://1510.dump.academy/kekstagram');

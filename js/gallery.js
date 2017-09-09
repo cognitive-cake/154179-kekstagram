@@ -63,7 +63,7 @@ window.gallery = (function () {
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
   // Выполнение скрипта
-  var listOfPhotos = window.picture.createListOfPhotos(window.data.photosDescription);
+  var listOfPhotos = window.picture.createListOfPhotos(window.data.serverData);
 
   photoContainer.appendChild(listOfPhotos);
   photoContainer.addEventListener('click', onPictureClick);

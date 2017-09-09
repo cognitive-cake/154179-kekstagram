@@ -19,6 +19,29 @@ window.data = (function () {
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
 
+  var serverData;
+
+  // Успешное получение данных от сервера
+  function onSuccess(response) {
+    serverData = response;
+  }
+
+  // Ошибка получения данных от сервера
+  function onError(message) {
+    var node = document.createElement('div');
+    node.style.zIndex = 100;
+    node.style.margin = '0 auto';
+    node.style.textAlign = 'center';
+    node.style.backgroundColor = '#f97f7f';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
+  }
+
   // Создание описаний к фотографиям и добавление их в массив
   function createArrayOfPhotosDescriptions(amount) {
     var array = [];
@@ -49,10 +72,13 @@ window.data = (function () {
   }
 
   // Выполнение скрипта
+
+  window.backend.load(onSuccess, onError);
   var photosDescription = createArrayOfPhotosDescriptions(taskParameters.photoCount);
 
   // Экспорт
   return {
-    photosDescription: photosDescription
+    photosDescription: photosDescription,
+    serverData: serverData
   };
 })();
