@@ -14,14 +14,12 @@ window.backend = (function () {
       } else {
         onError('Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText);
       }
-
-      xhr.addEventListener('error', function (eventError) {
-        onError('Произошла ошибка соединения');
-      });
-
-      xhr.addEventListener('timeout', function (eventTimeout) {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-      });
+    });
+    xhr.addEventListener('error', function (eventError) {
+      onError('Произошла ошибка соединения');
+    });
+    xhr.addEventListener('timeout', function (eventTimeout) {
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
 
@@ -36,14 +34,12 @@ window.backend = (function () {
 
     xhr.addEventListener('load', function () {
       onLoad(xhr.responseText);
-
-      xhr.addEventListener('error', function (eventError) {
-        onError('Произошла ошибка соединения');
-      });
-
-      xhr.addEventListener('timeout', function (eventTimeout) {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-      });
+    });
+    xhr.addEventListener('error', function (eventError) {
+      onError('Произошла ошибка соединения');
+    });
+    xhr.addEventListener('timeout', function (eventTimeout) {
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
     xhr.open('POST', 'https://1510.dump.academy/kekstagram');

@@ -63,9 +63,28 @@ window.gallery = (function () {
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
   // Выполнение скрипта
-  var listOfPhotos = window.picture.createListOfPhotos(window.data.serverData);
+  window.backend.load(onSuccess, onError);
 
-  photoContainer.appendChild(listOfPhotos);
+  function onSuccess(data) {
+    var listOfPhotos = window.picture.createListOfPhotos(data);
+    photoContainer.appendChild(listOfPhotos);
+  }
+
+  function onError(message) {
+    var node = document.createElement('div');
+    node.style.zIndex = 100;
+    node.style.margin = '0 auto';
+    node.style.textAlign = 'center';
+    node.style.backgroundColor = '#f97f7f';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
+  }
+
   photoContainer.addEventListener('click', onPictureClick);
 
   // Экспорт
