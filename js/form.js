@@ -320,11 +320,28 @@
   // ^^^ Валидация комментария ^^^
   // --- Передача формы на сервер ---
 
+  // Передача формы на сервер
   function onFormSubmit(event) {
     event.preventDefault();
     window.backend.save(new FormData(uploadForm), function (responseText) {
       uploadClose();
-    });
+    }, onError);
+  }
+
+  // Коллбэк-функция, которая срабатывает, если произошла ошибка при передаче данных
+  function onError(message) {
+    var node = document.createElement('div');
+    node.style.zIndex = 100;
+    node.style.margin = '0 auto';
+    node.style.textAlign = 'center';
+    node.style.backgroundColor = '#e22f2f';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
   }
 
   // ^^^ Передача формы на сервер ^^^

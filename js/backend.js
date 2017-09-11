@@ -33,7 +33,11 @@ window.backend = (function () {
     xhr.timeout = 10000;
 
     xhr.addEventListener('load', function () {
-      onLoad(xhr.responseText);
+      if (xhr.status === 200) {
+        onLoad(xhr.response);
+      } else {
+        onError('Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText);
+      }
     });
     xhr.addEventListener('error', function (eventError) {
       onError('Произошла ошибка соединения');
