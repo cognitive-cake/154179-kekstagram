@@ -1,12 +1,15 @@
 'use strict';
 
 window.tools = (function () {
+
   function getRandomNumber(min, max) {
     return (Math.random() * (max - min) + min);
   }
+
   function getRandomRoundNumber(min, max) {
     return Math.round(getRandomNumber(min, max));
   }
+
   function getMaxValue(array) {
     var maxValue = -1;
     for (var i = 0; i < array.length; i++) {
@@ -17,14 +20,17 @@ window.tools = (function () {
     }
     return maxValue;
   }
+
   function getRandomValueOfArray(array) {
     return array[Math.floor(Math.random() * array.length)];
   }
+
   // Определение, попадает ли число в диапазон от 11 до 19
   function isSecondTen(number) {
     var string = number.toString();
     return string.charAt(string.length - 2) === '1';
   }
+
   function isUniqElementsInArray(rawArray) {
     var isUniq = true;
     var array = [];
@@ -39,12 +45,15 @@ window.tools = (function () {
     }
     return isUniq;
   }
+
   function setInvalidClass(element) {
     element.classList.add('invalid');
   }
+
   function unsetInvalidClass(element) {
     element.classList.remove('invalid');
   }
+
   function checkInvalidClass(element) {
     return element.classList.contains('invalid');
   }
