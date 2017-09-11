@@ -46,14 +46,6 @@ window.backend = (function () {
     xhr.send(data);
   }
 
-  // function onLoad(responseText) {
-  //
-  // }
-
-  // function onError(errorMessage) {
-  //
-  // }
-
   return {
     load: load,
     save: save

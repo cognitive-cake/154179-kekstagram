@@ -12,6 +12,7 @@ window.gallery = (function () {
   };
 
   // --------- Обработчики событий ---------
+
   // Открытие галереи
   function galleryOpen() {
     galleryOverlay.classList.remove('hidden');
@@ -20,6 +21,7 @@ window.gallery = (function () {
     galleryOverlayClose.addEventListener('keydown', onCloseCrossEnterPress);
     document.addEventListener('keydown', onGalleryEscPress);
   }
+
   // Закрытие галереи
   function galleryClose() {
     galleryOverlay.classList.add('hidden');
@@ -28,6 +30,7 @@ window.gallery = (function () {
     galleryOverlayClose.removeEventListener('keydown', onCloseCrossEnterPress);
     document.removeEventListener('keydown', onGalleryEscPress);
   }
+
   // Клик на фотографии
   function onPictureClick(event) {
     event.preventDefault();
@@ -42,10 +45,12 @@ window.gallery = (function () {
       clickTarget = clickTarget.parentElement;
     }
   }
+
   // Клик на крестике галереи
   function onCloseCrossClick(event) {
     galleryClose();
   }
+
   // Нажатие Enter на крестике галереи
   function onCloseCrossEnterPress(event) {
     var keyCode = event.keyCode;
@@ -53,6 +58,7 @@ window.gallery = (function () {
       galleryClose();
     }
   }
+
   // Нажатие на ESC при открытой галерее
   function onGalleryEscPress(event) {
     var keyCode = event.keyCode;
@@ -60,16 +66,16 @@ window.gallery = (function () {
       galleryClose();
     }
   }
+
   // ^^^^^^^^^ Обработчики событий ^^^^^^^^^
 
-  // Выполнение скрипта
-  window.backend.load(onSuccess, onError);
-
-  function onSuccess(data) {
+  // Генерация DOM-элементов на основе данных от сервера и добавление их в DOM-дерево
+  function addPhotosToDom(data) {
     var listOfPhotos = window.picture.createListOfPhotos(data);
     photoContainer.appendChild(listOfPhotos);
   }
 
+  // Коллбэк-функция, которая срабатывает, если произошла ошибка при передаче данных
   function onError(message) {
     var node = document.createElement('div');
     node.style.zIndex = 100;
@@ -84,6 +90,9 @@ window.gallery = (function () {
     node.textContent = message;
     document.body.insertAdjacentElement('afterbegin', node);
   }
+
+  // Выполнение скрипта
+  window.backend.load(addPhotosToDom, onError);
 
   photoContainer.addEventListener('click', onPictureClick);
 
