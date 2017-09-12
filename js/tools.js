@@ -58,6 +58,35 @@ window.tools = (function () {
     return element.classList.contains('invalid');
   }
 
+  // Отображение сообщения
+  function displayErrorMessage(message) {
+    var node = document.createElement('div');
+    node.classList.add('error-message');
+    node.style.zIndex = 100;
+    node.style.margin = '0 auto';
+    node.style.textAlign = 'center';
+    node.style.backgroundColor = '#e22f2f';
+    node.style.color = 'white';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.style.fontFamily = '"Open Sans", Arial, sans-serif';
+
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
+
+    setTimeout(function () {
+      removeErrorMessage();
+    }, 10000);
+  }
+
+  // Скрытие сообщения
+  function removeErrorMessage() {
+    var node = document.querySelector('.error-message');
+    node.remove();
+  }
+
   // Экспорт
   return {
     getRandomNumber: getRandomNumber,
@@ -68,6 +97,7 @@ window.tools = (function () {
     isUniqElementsInArray: isUniqElementsInArray,
     setInvalidClass: setInvalidClass,
     unsetInvalidClass: unsetInvalidClass,
-    checkInvalidClass: checkInvalidClass
+    checkInvalidClass: checkInvalidClass,
+    displayErrorMessage: displayErrorMessage
   };
 })();
