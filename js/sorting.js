@@ -1,8 +1,9 @@
 'use strict';
 
 window.sorting = (function () {
-  var taskParameters = {
-
+  var param = {
+    labelClass: 'filters-item',
+    inputClass: 'filters-radio'
   };
   var originalData = [];
 
@@ -21,20 +22,23 @@ window.sorting = (function () {
   function onSortingClick(event) {
     var clickTarget = event.target;
     while (clickTarget !== sortingForm) {
-      if (clickTarget.classList.contains('filters-radio') && !clickTarget.hasAttribute('checked')) {
-        var sortType = clickTarget.getAttribute('id');
-        switch (sortType) {
-          case 'filter-popular':
-
-            break;
-          case 'filter-discussed':
-
-            break;
-          case 'filter-random':
-
-            break;
-          default:
-
+      if (clickTarget.classList.contains(param.labelClass)) {
+        var sortName = clickTarget.getAttribute('for');
+        var linkedInput = sortingForm.querySelector('#' + sortName);
+        if (!linkedInput.checked) {
+          switch (sortName) {
+            case 'filter-popular':
+              console.log(sortName);
+              break;
+            case 'filter-discussed':
+              console.log(sortName);
+              break;
+            case 'filter-random':
+              console.log(sortName);
+              break;
+            default:
+              console.log(sortName);
+          }
         }
         break;
       }
