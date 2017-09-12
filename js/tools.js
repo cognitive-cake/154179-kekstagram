@@ -78,7 +78,7 @@ window.tools = (function () {
 
     setTimeout(function () {
       removeErrorMessage();
-    }, 10000);
+    }, 5000);
   }
 
   // Скрытие сообщения

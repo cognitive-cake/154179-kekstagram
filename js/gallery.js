@@ -73,6 +73,7 @@ window.gallery = (function () {
   function addPhotosToDom(data) {
     var listOfPhotos = window.picture.createListOfPhotos(data);
     photoContainer.appendChild(listOfPhotos);
+    window.sorting.showSortingForm(data);
   }
 
   // Выполнение скрипта
