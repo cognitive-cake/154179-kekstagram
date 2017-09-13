@@ -73,26 +73,11 @@ window.gallery = (function () {
   function addPhotosToDom(data) {
     var listOfPhotos = window.picture.createListOfPhotos(data);
     photoContainer.appendChild(listOfPhotos);
-  }
-
-  // Коллбэк-функция, которая срабатывает, если произошла ошибка при передаче данных
-  function onError(message) {
-    var node = document.createElement('div');
-    node.style.zIndex = 100;
-    node.style.margin = '0 auto';
-    node.style.textAlign = 'center';
-    node.style.backgroundColor = '#e22f2f';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = message;
-    document.body.insertAdjacentElement('afterbegin', node);
+    window.sorting.showSortingForm(data);
   }
 
   // Выполнение скрипта
-  window.backend.load(addPhotosToDom, onError);
+  window.backend.load(addPhotosToDom, window.tools.displayErrorMessage);
 
   photoContainer.addEventListener('click', onPictureClick);
 
