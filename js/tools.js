@@ -87,6 +87,11 @@ window.tools = (function () {
     node.remove();
   }
 
+  // Callback-функция сравнения чисел для массива
+  function compareNumeric(a, b) {
+    return a - b;
+  }
+
   // Экспорт
   return {
     getRandomNumber: getRandomNumber,
@@ -98,6 +103,7 @@ window.tools = (function () {
     setInvalidClass: setInvalidClass,
     unsetInvalidClass: unsetInvalidClass,
     checkInvalidClass: checkInvalidClass,
-    displayErrorMessage: displayErrorMessage
+    displayErrorMessage: displayErrorMessage,
+    compareNumeric: compareNumeric
   };
 })();
