@@ -91,12 +91,6 @@ window.sorting = (function () {
     photoContainer.appendChild(listOfPhotos);
   }
 
-  //
-  function redrawingPhotos() {
-    removePhotos();
-
-  }
-
   // Экспорт
   return {
     showSortingForm: showSortingForm
