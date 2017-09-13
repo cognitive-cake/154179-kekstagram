@@ -3,7 +3,6 @@
 window.sorting = (function () {
   var param = {
     labelClass: 'filters-item',
-    inputClass: 'filters-radio'
   };
   var photoData = [];
 
@@ -23,25 +22,30 @@ window.sorting = (function () {
     while (clickTarget !== sortingForm) {
       if (clickTarget.classList.contains(param.labelClass)) {
         var sortName = clickTarget.getAttribute('for');
-        var linkedInput = sortingForm.querySelector('#' + sortName);
-        if (!linkedInput.checked) {
-          switch (sortName) {
-            case 'filter-popular':
+        switch (sortName) {
+          case 'filter-popular':
+            window.tools.debounce(function () {
               removePhotos();
               addSortedPhotosToDom(sortingPopular());
-              break;
-            case 'filter-discussed':
+            });
+            break;
+          case 'filter-discussed':
+            window.tools.debounce(function () {
               removePhotos();
               addSortedPhotosToDom(sortingDiscussed());
-              break;
-            case 'filter-random':
+            });
+            break;
+          case 'filter-random':
+            window.tools.debounce(function () {
               removePhotos();
               addSortedPhotosToDom(sortingRandom());
-              break;
-            default:
+            });
+            break;
+          default:
+            window.tools.debounce(function () {
               removePhotos();
               addSortedPhotosToDom(photoData);
-          }
+            });
         }
         break;
       }
@@ -85,6 +89,12 @@ window.sorting = (function () {
   function addSortedPhotosToDom(data) {
     var listOfPhotos = window.picture.createListOfPhotos(data);
     photoContainer.appendChild(listOfPhotos);
+  }
+
+  //
+  function redrawingPhotos() {
+    removePhotos();
+
   }
 
   // Экспорт
