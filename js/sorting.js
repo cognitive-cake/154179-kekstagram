@@ -31,13 +31,16 @@ window.sorting = (function () {
               addSortedPhotosToDom(sortingPopular());
               break;
             case 'filter-discussed':
-              console.log(sortName);
+              removePhotos();
+              addSortedPhotosToDom(sortingDiscussed());
               break;
             case 'filter-random':
-              console.log(sortName);
+              removePhotos();
+              addSortedPhotosToDom(sortingRandom());
               break;
             default:
-              console.log(sortName);
+              removePhotos();
+              addSortedPhotosToDom(photoData);
           }
         }
         break;
@@ -62,12 +65,20 @@ window.sorting = (function () {
 
   // Сортировка по кол-ву комментариев
   function sortingDiscussed() {
-
+    var photoDataDiscussed = photoData.slice();
+    photoDataDiscussed.sort(function (a, b) {
+      return b.comments.length - a.comments.length;
+    });
+    return photoDataDiscussed;
   }
 
   // Сортировка в случайном порядке
-  function sortingDiscussed() {
-
+  function sortingRandom() {
+    var photoDataRandom = photoData.slice();
+    photoDataRandom.sort(function (a, b) {
+      return Math.random() - 0.5; // Если честно, совсем не понимаю как это работает. Магия какая-то. Стащил такое решение с сайта Кантора.
+    });
+    return photoDataRandom;
   }
 
   // Добавление фотографий в DOM
