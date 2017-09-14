@@ -95,6 +95,7 @@
 
   // Закрытие формы кадрирования
   function uploadClose() {
+    removeEffectFromPhoto();
     uploadOverlay.classList.add('hidden');
     uploadOverlayClose.removeEventListener('event', onCloseCrossClick);
     document.removeEventListener('keydown', onUploadOverlayEscPress);
@@ -151,6 +152,14 @@
     if (imagePreview.classList.contains(effectsParameters.defaultEffectClass)) {
       hideEffectsSlider();
     }
+  }
+
+  // Удаление эффекта при закрытии формы
+  function removeEffectFromPhoto() {
+    imagePreview.classList.remove(lastEffectClass);
+    imagePreview.style.filter = '';
+    setPinPosition(effectsParameters.defaultEffectValue);
+    hideEffectsSlider();
   }
 
   // Показ слайдера насыщенности для эффектов
