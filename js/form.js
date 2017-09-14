@@ -12,6 +12,7 @@
   var effectsParameters = {
     defaultEffectClass: 'effect-none',
     defaultEffectValue: 100,
+    defaultScale: 100,
     effectLineUnit: '%',
     effectPinPositionPrecision: 1,
     effectPreviewPrecision: 2,
@@ -160,6 +161,8 @@
     imagePreview.style.filter = '';
     setPinPosition(effectsParameters.defaultEffectValue);
     hideEffectsSlider();
+    adjustScale(effectsParameters.defaultScale);
+    window.initializeScale.setScaleInputValue(effectsParameters.defaultScale);
   }
 
   // Показ слайдера насыщенности для эффектов
@@ -273,7 +276,7 @@
   }
 
   // Вызов модуля и передача ему callback-функции
-  window.initializeScale(resizeControls, adjustScale);
+  window.initializeScale.init(resizeControls, adjustScale);
 
   // ^^^ Изменение масштаба изображения ^^^
   // --- Валидация хэш-тегов ---
