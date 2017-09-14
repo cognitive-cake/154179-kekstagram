@@ -10,7 +10,6 @@
     errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и состоит из одного слова. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
   };
   var effectsParameters = {
-    beginSliceIndex: 7, // первый параметр для метода .slice(). Применяется к строке наподобие 'upload-effect-chrome'
     defaultEffectClass: 'effect-none',
     defaultEffectValue: 100,
     effectLineUnit: '%',
@@ -110,6 +109,7 @@
 
   // Загрузка фотографии
   function onPhotoUpload(event) {
+    window.initializeUpload.setNewImage();
     uploadOpen();
   }
 
