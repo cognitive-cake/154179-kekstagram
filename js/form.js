@@ -10,9 +10,9 @@
     errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и состоит из одного слова. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
   };
   var effectsParameters = {
-    beginSliceIndex: 7, // первый параметр для метода .slice(). Применяется к строке наподобие 'upload-effect-chrome'
     defaultEffectClass: 'effect-none',
     defaultEffectValue: 100,
+    defaultScale: 100,
     effectLineUnit: '%',
     effectPinPositionPrecision: 1,
     effectPreviewPrecision: 2,
@@ -96,6 +96,7 @@
 
   // Закрытие формы кадрирования
   function uploadClose() {
+    removeEffectFromPhoto();
     uploadOverlay.classList.add('hidden');
     uploadOverlayClose.removeEventListener('event', onCloseCrossClick);
     document.removeEventListener('keydown', onUploadOverlayEscPress);
@@ -110,6 +111,7 @@
 
   // Загрузка фотографии
   function onPhotoUpload(event) {
+    window.initializeUpload.setNewImage();
     uploadOpen();
   }
 
@@ -151,6 +153,16 @@
     if (imagePreview.classList.contains(effectsParameters.defaultEffectClass)) {
       hideEffectsSlider();
     }
+  }
+
+  // Удаление эффекта при закрытии формы
+  function removeEffectFromPhoto() {
+    imagePreview.classList.remove(lastEffectClass);
+    imagePreview.style.filter = '';
+    setPinPosition(effectsParameters.defaultEffectValue);
+    hideEffectsSlider();
+    adjustScale(effectsParameters.defaultScale);
+    window.initializeScale.setScaleInputValue(effectsParameters.defaultScale);
   }
 
   // Показ слайдера насыщенности для эффектов
@@ -264,7 +276,7 @@
   }
 
   // Вызов модуля и передача ему callback-функции
-  window.initializeScale(resizeControls, adjustScale);
+  window.initializeScale.init(resizeControls, adjustScale);
 
   // ^^^ Изменение масштаба изображения ^^^
   // --- Валидация хэш-тегов ---

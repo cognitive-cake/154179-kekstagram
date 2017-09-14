@@ -13,18 +13,22 @@ window.initializeScale = (function () {
   };
 
   var resizeInput = document.querySelector('.' + taskParameters.scaleValueClass);
-  var currentValue = parseInt(resizeInput.getAttribute('value'), taskParameters.radixForChangeValue);
 
   // Клик в области кнопок масштабирования
-  function onControlElementClick(event, callback) {
+  function onControlElementClick(event, currentValue, callback) {
     var clickTarget = event.target;
     if (isIncButton(clickTarget) && currentValue !== taskParameters.maxValue) {
       currentValue += taskParameters.changeStep;
     } else if (isDecButton(clickTarget) && currentValue !== taskParameters.minValue) {
       currentValue -= taskParameters.changeStep;
     }
-    resizeInput.setAttribute('value', currentValue + taskParameters.changeUnits);
+    setScaleInputValue(currentValue);
     callback(currentValue);
+  }
+
+  // Установка значения для инпута
+  function setScaleInputValue(value) {
+    resizeInput.setAttribute('value', value + taskParameters.changeUnits);
   }
 
   // Если клик на кнопке "+"
@@ -37,10 +41,13 @@ window.initializeScale = (function () {
     return clickTarget.classList.contains(taskParameters.decBtnClass);
   }
 
-  return function initializeScale(target, callback) {
-    target.addEventListener('click', function (event) {
-      onControlElementClick(event, callback);
-    });
+  return {
+    init: function (target, callback) {
+      target.addEventListener('click', function (event) {
+        var currentValue = parseInt(resizeInput.getAttribute('value'), taskParameters.radixForChangeValue);
+        onControlElementClick(event, currentValue, callback);
+      });
+    },
+    setScaleInputValue: setScaleInputValue
   };
-
 })();
