@@ -22,35 +22,35 @@ window.sorting = (function () {
     while (clickTarget !== sortingForm) {
       if (clickTarget.classList.contains(param.labelClass)) {
         var sortName = clickTarget.getAttribute('for');
-        switch (sortName) {
-          case 'filter-popular':
-            window.tools.debounce(function () {
-              removePhotos();
-              addSortedPhotosToDom(sortingPopular());
-            });
-            break;
-          case 'filter-discussed':
-            window.tools.debounce(function () {
-              removePhotos();
-              addSortedPhotosToDom(sortingDiscussed());
-            });
-            break;
-          case 'filter-random':
-            window.tools.debounce(function () {
-              removePhotos();
-              addSortedPhotosToDom(sortingRandom());
-            });
-            break;
-          default:
-            window.tools.debounce(function () {
-              removePhotos();
-              addSortedPhotosToDom(photoData);
-            });
-        }
+        sortPhotos(sortName);
         break;
       }
       clickTarget = clickTarget.parentElement;
     }
+  }
+
+  // Нахождение способа сортировки фотограф
+  function sortPhotos(sortName) {
+    var sortedPhotos;
+
+    switch (sortName) {
+      case 'filter-popular':
+        sortedPhotos = sortingPopular();
+        break;
+      case 'filter-discussed':
+        sortedPhotos = sortingDiscussed();
+        break;
+      case 'filter-random':
+        sortedPhotos = sortingRandom();
+        break;
+      default:
+        sortedPhotos = photoData.slice();
+    }
+
+    window.tools.debounce(function () {
+      removePhotos();
+      addSortedPhotosToDom(sortedPhotos);
+    });
   }
 
   // Удаление всех фотографий
@@ -80,7 +80,7 @@ window.sorting = (function () {
   function sortingRandom() {
     var photoDataRandom = photoData.slice();
     photoDataRandom.sort(function (a, b) {
-      return Math.random() - 0.5; // Если честно, совсем не понимаю как это работает. Магия какая-то. Стащил такое решение с сайта Кантора.
+      return Math.random() - 0.5;
     });
     return photoDataRandom;
   }
