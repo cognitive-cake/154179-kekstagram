@@ -29,7 +29,7 @@ window.sorting = (function () {
     }
   }
 
-  // Нахождение способа сортировки фотограф
+  // Нахождение способа сортировки фотографий
   function sortPhotos(sortName) {
     var sortedPhotos;
 
