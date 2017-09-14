@@ -1,6 +1,11 @@
 'use strict';
 
 window.tools = (function () {
+  var KEY_CODES = {
+    esc: 27,
+    enter: 13
+  };
+
   var parameters = {
     debounceInterval: 500,
     timeoutForMessage: 5000
@@ -121,6 +126,7 @@ window.tools = (function () {
     unsetInvalidClass: unsetInvalidClass,
     checkInvalidClass: checkInvalidClass,
     displayErrorMessage: displayErrorMessage,
-    debounce: debounce
+    debounce: debounce,
+    keyCodes: KEY_CODES
   };
 })();

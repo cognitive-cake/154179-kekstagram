@@ -6,11 +6,6 @@ window.gallery = (function () {
   var galleryOverlay = document.querySelector('.gallery-overlay');
   var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
 
-  var KEY_CODES = {
-    esc: 27,
-    enter: 13
-  };
-
   // --------- Обработчики событий ---------
 
   // Открытие галереи
@@ -54,7 +49,7 @@ window.gallery = (function () {
   // Нажатие Enter на крестике галереи
   function onCloseCrossEnterPress(event) {
     var keyCode = event.keyCode;
-    if (keyCode === KEY_CODES.enter) {
+    if (keyCode === window.tools.keyCodes.enter) {
       galleryClose();
     }
   }
@@ -62,7 +57,7 @@ window.gallery = (function () {
   // Нажатие на ESC при открытой галерее
   function onGalleryEscPress(event) {
     var keyCode = event.keyCode;
-    if (keyCode === KEY_CODES.esc) {
+    if (keyCode === window.tools.keyCodes.esc) {
       galleryClose();
     }
   }
