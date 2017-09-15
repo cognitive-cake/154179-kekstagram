@@ -60,29 +60,29 @@ window.sorting = (function () {
 
   // Сортировка по популярности
   function sortingPopular() {
-    var photoDataPopular = photoData.slice();
-    photoDataPopular.sort(function (a, b) {
+    var popularPhotos = photoData.slice();
+    popularPhotos.sort(function (a, b) {
       return b.likes - a.likes;
     });
-    return photoDataPopular;
+    return popularPhotos;
   }
 
   // Сортировка по кол-ву комментариев
   function sortingDiscussed() {
-    var photoDataDiscussed = photoData.slice();
-    photoDataDiscussed.sort(function (a, b) {
+    var discussedPhotos = photoData.slice();
+    discussedPhotos.sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
-    return photoDataDiscussed;
+    return discussedPhotos;
   }
 
   // Сортировка в случайном порядке
   function sortingRandom() {
-    var photoDataRandom = photoData.slice();
-    photoDataRandom.sort(function (a, b) {
+    var randomPhotos = photoData.slice();
+    randomPhotos.sort(function (a, b) {
       return Math.random() - 0.5;
     });
-    return photoDataRandom;
+    return randomPhotos;
   }
 
   // Добавление фотографий в DOM

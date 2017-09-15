@@ -1,6 +1,11 @@
 'use strict';
 
 window.tools = (function () {
+  var KEY_CODES = {
+    esc: 27,
+    enter: 13
+  };
+
   var parameters = {
     debounceInterval: 500,
     timeoutForMessage: 5000
@@ -44,11 +49,10 @@ window.tools = (function () {
   // Проверка, что все элементы в массиве уникальны
   function isUniqElementsInArray(rawArray) {
     var isUniq = true;
-    var array = [];
-    for (var i = 0; i < rawArray.length; i++) {
-      array.push(rawArray[i].toLowerCase());
-    }
-    for (i = 0; i < array.length; i++) {
+    var array = rawArray.map(function (elem) {
+      return elem.toLowerCase();
+    });
+    for (var i = 0; i < array.length; i++) {
       if (array.indexOf(array[i], i + 1) !== -1) {
         isUniq = false;
         break;
@@ -121,6 +125,7 @@ window.tools = (function () {
     unsetInvalidClass: unsetInvalidClass,
     checkInvalidClass: checkInvalidClass,
     displayErrorMessage: displayErrorMessage,
-    debounce: debounce
+    debounce: debounce,
+    keyCodes: KEY_CODES
   };
 })();
