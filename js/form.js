@@ -298,13 +298,9 @@
       var singleTag = arrayOfValues[i];
       var hashSymbols = singleTag.match(hashTagsValidation.regExpFirstChar);
 
-      if (singleTag.charAt(0) !== hashTagsValidation.firstChar) {
-        window.tools.setInvalidClass(hashTagInput);
-      }
-      if (hashSymbols && hashSymbols.length > 1) {
-        window.tools.setInvalidClass(hashTagInput);
-      }
-      if (singleTag.length > hashTagsValidation.maxOneTagLength) {
+      var isValid = singleTag.charAt(0) === hashTagsValidation.firstChar && (hashSymbols && hashSymbols.length === 1) && singleTag.length <= hashTagsValidation.maxOneTagLength;
+
+      if (!isValid) {
         window.tools.setInvalidClass(hashTagInput);
       }
     }
