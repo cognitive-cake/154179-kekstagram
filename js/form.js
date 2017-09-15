@@ -9,6 +9,10 @@
     maxOneTagLength: 20,
     errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и состоит из одного слова. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
   };
+  var commentValidation = {
+    minLength: 30,
+    minLengthMessage: 'Минимальная длина - 30 символов'
+  };
   var effectsParameters = {
     defaultEffectClass: 'effect-none',
     defaultEffectValue: 100,
@@ -320,8 +324,17 @@
 
   function onCommentInput(event) {
     window.tools.unsetInvalidClass(uploadComment);
-    if (!uploadComment.checkValidity()) {
+    uploadComment.setCustomValidity('');
+    if (checkMinLength() || !uploadComment.checkValidity()) {
       window.tools.setInvalidClass(uploadComment);
+    }
+  }
+
+  // Проверка на минимальную длину комментария (т.к. EDGE не поддерживает minlength)
+  function checkMinLength() {
+    var string = uploadComment.value;
+    if (string.length < commentValidation.minLength) {
+      uploadComment.setCustomValidity(commentValidation.minLengthMessage);
     }
   }
 
