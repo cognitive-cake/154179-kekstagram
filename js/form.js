@@ -205,8 +205,7 @@
 
       if (pinPositionInPercent > EFFECTS_PARAMETERS.maxValue) {
         pinPositionInPercent = EFFECTS_PARAMETERS.maxValue;
-      }
-      if (pinPositionInPercent < EFFECTS_PARAMETERS.minValue) {
+      } else if (pinPositionInPercent < EFFECTS_PARAMETERS.minValue) {
         pinPositionInPercent = EFFECTS_PARAMETERS.minValue;
       }
 
@@ -317,10 +316,7 @@
         window.tools.setInvalidClass(hashTagInput);
       }
     });
-    if (!window.tools.isUniqElementsInArray(arrayOfValues)) {
-      window.tools.setInvalidClass(hashTagInput);
-    }
-    if (arrayOfValues.length > HASH_TAGS_VALIDATION.maxAmount) {
+    if (!window.tools.isUniqElementsInArray(arrayOfValues) || arrayOfValues.length > HASH_TAGS_VALIDATION.maxAmount) {
       window.tools.setInvalidClass(hashTagInput);
     }
     if (window.tools.checkInvalidClass(hashTagInput)) {
