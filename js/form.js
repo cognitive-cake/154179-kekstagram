@@ -97,7 +97,7 @@
   function uploadClose() {
     removeEffectFromPhoto();
     uploadOverlay.classList.add('hidden');
-    uploadOverlayClose.removeEventListener('event', onCloseCrossClick);
+    uploadOverlayClose.removeEventListener('click', onCloseCrossClick);
     document.removeEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.removeEventListener('focus', onCommentFocusing);
     uploadComment.removeEventListener('input', onCommentInput);
