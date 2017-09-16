@@ -298,6 +298,9 @@
     if (arrayOfValues[0] === '') {
       return;
     }
+    arrayOfValues = arrayOfValues.filter(function (it) {
+      return it !== '';
+    });
     for (var i = 0; i < arrayOfValues.length; i++) {
       var singleTag = arrayOfValues[i];
       var hashSymbols = singleTag.match(hashTagsValidation.regExpFirstChar);
