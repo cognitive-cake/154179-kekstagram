@@ -109,14 +109,14 @@
   }
 
   // Загрузка фотографии
-  function onPhotoUpload(event) {
+  function onPhotoUpload() {
     if (window.initializeUpload.setNewImage()) {
       uploadOpen();
     }
   }
 
   // Клик на кнопке закрытия формы кадрирования
-  function onCloseCrossClick(event) {
+  function onCloseCrossClick() {
     uploadClose();
   }
 
@@ -129,13 +129,13 @@
   }
 
   // Фокус на поле для комментария
-  function onCommentFocusing(event) {
+  function onCommentFocusing() {
     document.removeEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.addEventListener('blur', onCommentDefocusing);
   }
 
   // Фокус с поля для комментария снят
-  function onCommentDefocusing(event) {
+  function onCommentDefocusing() {
     document.addEventListener('keydown', onUploadOverlayEscPress);
     uploadComment.removeEventListener('blur', onCommentDefocusing);
   }
@@ -282,7 +282,7 @@
   // --- Валидация хэш-тегов ---
 
   // Клик на кнопке отправки формы
-  function onSubmitClick(event) {
+  function onSubmitClick() {
     window.tools.unsetInvalidClass(hashTagInput);
     hashTagInput.setCustomValidity('');
     checkHashTagsValidity();
@@ -321,7 +321,7 @@
   // ^^^ Валидация хэш-тегов ^^^
   // --- Валидация комментария ---
 
-  function onCommentInput(event) {
+  function onCommentInput() {
     window.tools.unsetInvalidClass(uploadComment);
     uploadComment.setCustomValidity('');
     if (checkMinLength() || !uploadComment.checkValidity()) {

@@ -42,7 +42,7 @@ window.gallery = (function () {
   }
 
   // Клик на крестике галереи
-  function onCloseCrossClick(event) {
+  function onCloseCrossClick() {
     galleryClose();
   }
 
