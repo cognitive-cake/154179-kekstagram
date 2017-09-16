@@ -17,6 +17,8 @@
     defaultClass: 'effect-none',
     defaultValue: 100,
     defaultScale: 100,
+    maxValue: 100,
+    minValue: 0,
     lineUnit: '%',
     pinPositionPrecision: 1,
     previewPrecision: 2,
@@ -201,11 +203,11 @@
       var pinPositionInPercent = ((effectLevelPin.offsetLeft - shiftX) / effectLineWidth) * 100;
       startX = moveEvt.clientX;
 
-      if (pinPositionInPercent > 100) {
-        pinPositionInPercent = 100;
+      if (pinPositionInPercent > EFFECTS_PARAMETERS.maxValue) {
+        pinPositionInPercent = EFFECTS_PARAMETERS.maxValue;
       }
-      if (pinPositionInPercent < 0) {
-        pinPositionInPercent = 0;
+      if (pinPositionInPercent < EFFECTS_PARAMETERS.minValue) {
+        pinPositionInPercent = EFFECTS_PARAMETERS.minValue;
       }
 
       setEffectAndMovePin(pinPositionInPercent);
