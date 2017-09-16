@@ -95,7 +95,7 @@
 
   // Закрытие формы кадрирования
   function uploadClose() {
-    removeEffectFromPhoto();
+    removeEffectAndScaleFromPhoto();
     uploadOverlay.classList.add('hidden');
     uploadOverlayClose.removeEventListener('click', onCloseCrossClick);
     document.removeEventListener('keydown', onUploadOverlayEscPress);
@@ -149,20 +149,29 @@
     lastEffectClass = effectName;
     imagePreview.classList.add(effectName);
 
-    showEffectsSlider();
     if (imagePreview.classList.contains(EFFECTS_PARAMETERS.defaultClass)) {
-      hideEffectsSlider();
+      setDefaultFilter();
+    } else {
+      showEffectsSlider();
     }
   }
 
-  // Удаление эффекта при закрытии формы
-  function removeEffectFromPhoto() {
+  // Удаление эффекта и масштаба
+  function removeEffectAndScaleFromPhoto() {
     imagePreview.classList.remove(lastEffectClass);
     imagePreview.style.filter = '';
     setPinPosition(EFFECTS_PARAMETERS.defaultValue);
     hideEffectsSlider();
     adjustScale(EFFECTS_PARAMETERS.defaultScale);
     window.initializeScale.setInputValue(EFFECTS_PARAMETERS.defaultScale);
+  }
+
+  // Применение фильтра по-умолчанию
+  function setDefaultFilter() {
+    imagePreview.classList.remove(lastEffectClass);
+    imagePreview.style.filter = '';
+    setPinPosition(EFFECTS_PARAMETERS.defaultValue);
+    hideEffectsSlider();
   }
 
   // Показ слайдера насыщенности для эффектов
