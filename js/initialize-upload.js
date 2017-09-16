@@ -24,6 +24,10 @@ window.initializeUpload = (function () {
       });
 
       reader.readAsDataURL(file);
+      return true;
+    } else {
+      window.tools.displayErrorMessage('Неподходящий формат файла');
+      return false;
     }
 
   }

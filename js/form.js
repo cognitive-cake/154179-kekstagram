@@ -115,8 +115,9 @@
 
   // Загрузка фотографии
   function onPhotoUpload(event) {
-    window.initializeUpload.setNewImage();
-    uploadOpen();
+    if (window.initializeUpload.setNewImage()) {
+      uploadOpen();
+    }
   }
 
   // Клик на кнопке закрытия формы кадрирования
