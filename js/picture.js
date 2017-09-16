@@ -14,11 +14,10 @@ window.picture = (function () {
   // Создание списка с фотографиями
   function createListOfPhotos(array) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < array.length; i++) {
-      var object = array[i];
-      var photo = createSinglePhotoElement(object);
+    array.forEach(function (it) {
+      var photo = createSinglePhotoElement(it);
       fragment.appendChild(photo);
-    }
+    });
     return fragment;
   }
 

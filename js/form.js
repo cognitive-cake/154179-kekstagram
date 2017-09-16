@@ -308,16 +308,15 @@
     arrayOfValues = arrayOfValues.filter(function (it) {
       return it !== '';
     });
-    for (var i = 0; i < arrayOfValues.length; i++) {
-      var singleTag = arrayOfValues[i];
-      var hashSymbols = singleTag.match(HASH_TAGS_VALIDATION.regExpFirstChar);
+    arrayOfValues.forEach(function (it) {
+      var hashSymbols = it.match(HASH_TAGS_VALIDATION.regExpFirstChar);
 
-      var isValid = singleTag.charAt(0) === HASH_TAGS_VALIDATION.firstChar && (hashSymbols && hashSymbols.length === 1) && singleTag.length <= HASH_TAGS_VALIDATION.maxOneTagLength;
+      var isValid = it.charAt(0) === HASH_TAGS_VALIDATION.firstChar && (hashSymbols && hashSymbols.length === 1) && it.length <= HASH_TAGS_VALIDATION.maxOneTagLength;
 
       if (!isValid) {
         window.tools.setInvalidClass(hashTagInput);
       }
-    }
+    });
     if (!window.tools.isUniqElementsInArray(arrayOfValues)) {
       window.tools.setInvalidClass(hashTagInput);
     }

@@ -23,18 +23,6 @@ window.tools = (function () {
     return Math.round(getRandomNumber(min, max));
   }
 
-  // Нахождение наибольшего значения в массиве
-  function getMaxValue(array) {
-    var maxValue = -1;
-    for (var i = 0; i < array.length; i++) {
-      var currValue = array[i];
-      if (currValue > maxValue) {
-        maxValue = currValue;
-      }
-    }
-    return maxValue;
-  }
-
   // Возвращает случайный элемент массива
   function getRandomValueOfArray(array) {
     return array[Math.floor(Math.random() * array.length)];
@@ -117,7 +105,6 @@ window.tools = (function () {
   return {
     getRandomNumber: getRandomNumber,
     getRandomRoundNumber: getRandomRoundNumber,
-    getMaxValue: getMaxValue,
     getRandomValueOfArray: getRandomValueOfArray,
     isSecondTen: isSecondTen,
     isUniqElementsInArray: isUniqElementsInArray,
