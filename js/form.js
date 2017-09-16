@@ -77,11 +77,6 @@
   var hashTagInput = uploadForm.querySelector('.upload-form-hashtags');
   var submitButton = uploadForm.querySelector('#upload-submit');
 
-  var KEY_CODES = {
-    esc: 27,
-    enter: 13
-  };
-
   // --------- Обработчики событий ---------
   // --- Показ/сокрытие формы ---
 
@@ -128,7 +123,7 @@
   // Нажатие на ESC при показанной форме кадрирования
   function onUploadOverlayEscPress(event) {
     var keyCode = event.keyCode;
-    if (keyCode === KEY_CODES.esc) {
+    if (keyCode === window.tools.keyCodes.esc) {
       uploadClose();
     }
   }
