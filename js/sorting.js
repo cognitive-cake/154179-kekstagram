@@ -8,7 +8,7 @@ window.sorting = (function () {
   var sortingForm = document.querySelector('.filters');
 
   // Показ фильтров
-  function showSortingForm(data) {
+  function showForm(data) {
     photoData = data;
     sortingForm.classList.remove('hidden');
     sortingForm.addEventListener('click', onSortingClick);
@@ -91,6 +91,6 @@ window.sorting = (function () {
 
   // Экспорт
   return {
-    showSortingForm: showSortingForm
+    showForm: showForm
   };
 })();

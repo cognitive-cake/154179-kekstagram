@@ -4,8 +4,8 @@
   var HASH_TAGS_VALIDATION = {
     firstChar: '#',
     regExpFirstChar: /#/g,
-    tagsSeparator: ' ',
-    maxTagsAmount: 5,
+    separator: ' ',
+    maxAmount: 5,
     maxOneTagLength: 20,
     errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и состоит из одного слова. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
   };
@@ -14,39 +14,39 @@
     minLengthMessage: 'Минимальная длина - 30 символов'
   };
   var EFFECTS_PARAMETERS = {
-    defaultEffectClass: 'effect-none',
-    defaultEffectValue: 100,
+    defaultClass: 'effect-none',
+    defaultValue: 100,
     defaultScale: 100,
-    effectLineUnit: '%',
-    effectPinPositionPrecision: 1,
-    effectPreviewPrecision: 2,
-    effectClassIndex: 1,
+    lineUnit: '%',
+    pinPositionPrecision: 1,
+    previewPrecision: 2,
+    classIndex: 1,
 
-    effectChrome: {
+    chrome: {
       class: 'effect-chrome',
       property: 'grayscale',
       maxValue: 1,
       units: ''
     },
-    effectSepia: {
+    sepia: {
       class: 'effect-sepia',
       property: 'sepia',
       maxValue: 1,
       units: ''
     },
-    effectMarvin: {
+    marvin: {
       class: 'effect-marvin',
       property: 'invert',
       maxValue: 100,
       units: '%'
     },
-    effectPhobos: {
+    phobos: {
       class: 'effect-phobos',
       property: 'blur',
       maxValue: 3,
       units: 'px'
     },
-    effectHeat: {
+    heat: {
       class: 'effect-heat',
       property: 'brightness',
       maxValue: 3,
@@ -150,7 +150,7 @@
     imagePreview.classList.add(effectName);
 
     showEffectsSlider();
-    if (imagePreview.classList.contains(EFFECTS_PARAMETERS.defaultEffectClass)) {
+    if (imagePreview.classList.contains(EFFECTS_PARAMETERS.defaultClass)) {
       hideEffectsSlider();
     }
   }
@@ -159,15 +159,15 @@
   function removeEffectFromPhoto() {
     imagePreview.classList.remove(lastEffectClass);
     imagePreview.style.filter = '';
-    setPinPosition(EFFECTS_PARAMETERS.defaultEffectValue);
+    setPinPosition(EFFECTS_PARAMETERS.defaultValue);
     hideEffectsSlider();
     adjustScale(EFFECTS_PARAMETERS.defaultScale);
-    window.initializeScale.setScaleInputValue(EFFECTS_PARAMETERS.defaultScale);
+    window.initializeScale.setInputValue(EFFECTS_PARAMETERS.defaultScale);
   }
 
   // Показ слайдера насыщенности для эффектов
   function showEffectsSlider() {
-    setEffectAndMovePin(EFFECTS_PARAMETERS.defaultEffectValue);
+    setEffectAndMovePin(EFFECTS_PARAMETERS.defaultValue);
     effectLevelSlider.classList.remove('hidden');
     effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
   }
@@ -224,31 +224,31 @@
   // Нахождение текущего эффекта
   function findCurrentEffect() {
     var currentEffect;
-    switch (imagePreview.classList[EFFECTS_PARAMETERS.effectClassIndex]) {
-      case EFFECTS_PARAMETERS.effectChrome.class:
-        currentEffect = EFFECTS_PARAMETERS.effectChrome;
+    switch (imagePreview.classList[EFFECTS_PARAMETERS.classIndex]) {
+      case EFFECTS_PARAMETERS.chrome.class:
+        currentEffect = EFFECTS_PARAMETERS.chrome;
         break;
-      case EFFECTS_PARAMETERS.effectSepia.class:
-        currentEffect = EFFECTS_PARAMETERS.effectSepia;
+      case EFFECTS_PARAMETERS.sepia.class:
+        currentEffect = EFFECTS_PARAMETERS.sepia;
         break;
-      case EFFECTS_PARAMETERS.effectMarvin.class:
-        currentEffect = EFFECTS_PARAMETERS.effectMarvin;
+      case EFFECTS_PARAMETERS.marvin.class:
+        currentEffect = EFFECTS_PARAMETERS.marvin;
         break;
-      case EFFECTS_PARAMETERS.effectPhobos.class:
-        currentEffect = EFFECTS_PARAMETERS.effectPhobos;
+      case EFFECTS_PARAMETERS.phobos.class:
+        currentEffect = EFFECTS_PARAMETERS.phobos;
         break;
-      case EFFECTS_PARAMETERS.effectHeat.class:
-        currentEffect = EFFECTS_PARAMETERS.effectHeat;
+      case EFFECTS_PARAMETERS.heat.class:
+        currentEffect = EFFECTS_PARAMETERS.heat;
         break;
       default:
-        currentEffect = EFFECTS_PARAMETERS.defaultEffectClass;
+        currentEffect = EFFECTS_PARAMETERS.defaultClass;
     }
     return currentEffect;
   }
 
   // Установка положения для слайдера
   function setPinPosition(value) {
-    var pinPositionString = value.toFixed(EFFECTS_PARAMETERS.effectPinPositionPrecision) + EFFECTS_PARAMETERS.effectLineUnit;
+    var pinPositionString = value.toFixed(EFFECTS_PARAMETERS.pinPositionPrecision) + EFFECTS_PARAMETERS.lineUnit;
     effectLevelPin.style.left = pinPositionString;
     effectLevelPin.setAttribute('title', pinPositionString);
     effectLevelBar.style.width = pinPositionString;
@@ -256,12 +256,12 @@
 
   // Установка значения filter для текущего эффекта
   function setFilterValueForPreview(effect, value) {
-    if (effect === EFFECTS_PARAMETERS.defaultEffectClass) {
+    if (effect === EFFECTS_PARAMETERS.defaultClass) {
       imagePreview.style.filter = '';
       return;
     }
     var valueInDecimal = value / 100;
-    imagePreview.style.filter = effect.property + '(' + (valueInDecimal * effect.maxValue).toFixed(EFFECTS_PARAMETERS.effectPreviewPrecision) + effect.units + ')';
+    imagePreview.style.filter = effect.property + '(' + (valueInDecimal * effect.maxValue).toFixed(EFFECTS_PARAMETERS.previewPrecision) + effect.units + ')';
   }
 
   // Вызов модуля и передача ему callback-функции
@@ -290,7 +290,7 @@
 
   // Валидация строки с хэш-тегами
   function checkHashTagsValidity() {
-    var arrayOfValues = hashTagInput.value.split(HASH_TAGS_VALIDATION.tagsSeparator);
+    var arrayOfValues = hashTagInput.value.split(HASH_TAGS_VALIDATION.separator);
     if (arrayOfValues[0] === '') {
       return;
     }
@@ -310,7 +310,7 @@
     if (!window.tools.isUniqElementsInArray(arrayOfValues)) {
       window.tools.setInvalidClass(hashTagInput);
     }
-    if (arrayOfValues.length > HASH_TAGS_VALIDATION.maxTagsAmount) {
+    if (arrayOfValues.length > HASH_TAGS_VALIDATION.maxAmount) {
       window.tools.setInvalidClass(hashTagInput);
     }
     if (window.tools.checkInvalidClass(hashTagInput)) {

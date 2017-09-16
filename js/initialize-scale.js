@@ -22,12 +22,12 @@ window.initializeScale = (function () {
     } else if (isDecButton(clickTarget) && currentValue !== TASK_PARAMETERS.minValue) {
       currentValue -= TASK_PARAMETERS.changeStep;
     }
-    setScaleInputValue(currentValue);
+    setInputValue(currentValue);
     callback(currentValue);
   }
 
   // Установка значения для инпута
-  function setScaleInputValue(value) {
+  function setInputValue(value) {
     resizeInput.setAttribute('value', value + TASK_PARAMETERS.changeUnits);
   }
 
@@ -48,6 +48,6 @@ window.initializeScale = (function () {
         onControlElementClick(event, currentValue, callback);
       });
     },
-    setScaleInputValue: setScaleInputValue
+    setInputValue: setInputValue
   };
 })();
