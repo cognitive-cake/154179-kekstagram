@@ -1,10 +1,8 @@
 'use strict';
 
 window.sorting = (function () {
-  var param = {
-    labelClass: 'filters-item',
-  };
   var photoData = [];
+  var filterClass = 'filters-item';
 
   var photoContainer = document.querySelector('.pictures');
   var sortingForm = document.querySelector('.filters');
@@ -20,7 +18,7 @@ window.sorting = (function () {
   function onSortingClick(event) {
     var clickTarget = event.target;
     while (clickTarget !== sortingForm) {
-      if (clickTarget.classList.contains(param.labelClass)) {
+      if (clickTarget.classList.contains(filterClass)) {
         var sortName = clickTarget.getAttribute('for');
         sortPhotos(sortName);
         break;

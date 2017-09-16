@@ -1,7 +1,7 @@
 'use strict';
 
 window.initializeFilters = (function () {
-  var taskParameters = {
+  var TASK_PARAMETERS = {
     definingClassForEffects: 'upload-effect-label',
     beginSliceIndex: 7, // первый параметр для метода .slice(). Применяется к строке наподобие 'upload-effect-chrome'
   };
@@ -10,8 +10,8 @@ window.initializeFilters = (function () {
   function onEffectFieldsetClick(event, target, callback) {
     var clickTarget = event.target;
     while (clickTarget !== target) {
-      if (clickTarget.classList.contains(taskParameters.definingClassForEffects)) {
-        var effectName = clickTarget.getAttribute('for').slice(taskParameters.beginSliceIndex);
+      if (clickTarget.classList.contains(TASK_PARAMETERS.definingClassForEffects)) {
+        var effectName = clickTarget.getAttribute('for').slice(TASK_PARAMETERS.beginSliceIndex);
         callback(clickTarget, effectName);
         break;
       }

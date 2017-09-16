@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var hashTagsValidation = {
+  var HASH_TAGS_VALIDATION = {
     firstChar: '#',
     regExpFirstChar: /#/g,
     tagsSeparator: ' ',
@@ -9,11 +9,11 @@
     maxOneTagLength: 20,
     errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и состоит из одного слова. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
   };
-  var commentValidation = {
+  var COMMENT_VALIDATION = {
     minLength: 30,
     minLengthMessage: 'Минимальная длина - 30 символов'
   };
-  var effectsParameters = {
+  var EFFECTS_PARAMETERS = {
     defaultEffectClass: 'effect-none',
     defaultEffectValue: 100,
     defaultScale: 100,
@@ -155,7 +155,7 @@
     imagePreview.classList.add(effectName);
 
     showEffectsSlider();
-    if (imagePreview.classList.contains(effectsParameters.defaultEffectClass)) {
+    if (imagePreview.classList.contains(EFFECTS_PARAMETERS.defaultEffectClass)) {
       hideEffectsSlider();
     }
   }
@@ -164,15 +164,15 @@
   function removeEffectFromPhoto() {
     imagePreview.classList.remove(lastEffectClass);
     imagePreview.style.filter = '';
-    setPinPosition(effectsParameters.defaultEffectValue);
+    setPinPosition(EFFECTS_PARAMETERS.defaultEffectValue);
     hideEffectsSlider();
-    adjustScale(effectsParameters.defaultScale);
-    window.initializeScale.setScaleInputValue(effectsParameters.defaultScale);
+    adjustScale(EFFECTS_PARAMETERS.defaultScale);
+    window.initializeScale.setScaleInputValue(EFFECTS_PARAMETERS.defaultScale);
   }
 
   // Показ слайдера насыщенности для эффектов
   function showEffectsSlider() {
-    setEffectAndMovePin(effectsParameters.defaultEffectValue);
+    setEffectAndMovePin(EFFECTS_PARAMETERS.defaultEffectValue);
     effectLevelSlider.classList.remove('hidden');
     effectLevelPin.addEventListener('mousedown', onEffectPinMouseDown);
   }
@@ -229,31 +229,31 @@
   // Нахождение текущего эффекта
   function findCurrentEffect() {
     var currentEffect;
-    switch (imagePreview.classList[effectsParameters.effectClassIndex]) {
-      case effectsParameters.effectChrome.class:
-        currentEffect = effectsParameters.effectChrome;
+    switch (imagePreview.classList[EFFECTS_PARAMETERS.effectClassIndex]) {
+      case EFFECTS_PARAMETERS.effectChrome.class:
+        currentEffect = EFFECTS_PARAMETERS.effectChrome;
         break;
-      case effectsParameters.effectSepia.class:
-        currentEffect = effectsParameters.effectSepia;
+      case EFFECTS_PARAMETERS.effectSepia.class:
+        currentEffect = EFFECTS_PARAMETERS.effectSepia;
         break;
-      case effectsParameters.effectMarvin.class:
-        currentEffect = effectsParameters.effectMarvin;
+      case EFFECTS_PARAMETERS.effectMarvin.class:
+        currentEffect = EFFECTS_PARAMETERS.effectMarvin;
         break;
-      case effectsParameters.effectPhobos.class:
-        currentEffect = effectsParameters.effectPhobos;
+      case EFFECTS_PARAMETERS.effectPhobos.class:
+        currentEffect = EFFECTS_PARAMETERS.effectPhobos;
         break;
-      case effectsParameters.effectHeat.class:
-        currentEffect = effectsParameters.effectHeat;
+      case EFFECTS_PARAMETERS.effectHeat.class:
+        currentEffect = EFFECTS_PARAMETERS.effectHeat;
         break;
       default:
-        currentEffect = effectsParameters.defaultEffectClass;
+        currentEffect = EFFECTS_PARAMETERS.defaultEffectClass;
     }
     return currentEffect;
   }
 
   // Установка положения для слайдера
   function setPinPosition(value) {
-    var pinPositionString = value.toFixed(effectsParameters.effectPinPositionPrecision) + effectsParameters.effectLineUnit;
+    var pinPositionString = value.toFixed(EFFECTS_PARAMETERS.effectPinPositionPrecision) + EFFECTS_PARAMETERS.effectLineUnit;
     effectLevelPin.style.left = pinPositionString;
     effectLevelPin.setAttribute('title', pinPositionString);
     effectLevelBar.style.width = pinPositionString;
@@ -261,12 +261,12 @@
 
   // Установка значения filter для текущего эффекта
   function setFilterValueForPreview(effect, value) {
-    if (effect === effectsParameters.defaultEffectClass) {
+    if (effect === EFFECTS_PARAMETERS.defaultEffectClass) {
       imagePreview.style.filter = '';
       return;
     }
     var valueInDecimal = value / 100;
-    imagePreview.style.filter = effect.property + '(' + (valueInDecimal * effect.maxValue).toFixed(effectsParameters.effectPreviewPrecision) + effect.units + ')';
+    imagePreview.style.filter = effect.property + '(' + (valueInDecimal * effect.maxValue).toFixed(EFFECTS_PARAMETERS.effectPreviewPrecision) + effect.units + ')';
   }
 
   // Вызов модуля и передача ему callback-функции
@@ -295,7 +295,7 @@
 
   // Валидация строки с хэш-тегами
   function checkHashTagsValidity() {
-    var arrayOfValues = hashTagInput.value.split(hashTagsValidation.tagsSeparator);
+    var arrayOfValues = hashTagInput.value.split(HASH_TAGS_VALIDATION.tagsSeparator);
     if (arrayOfValues[0] === '') {
       return;
     }
@@ -304,9 +304,9 @@
     });
     for (var i = 0; i < arrayOfValues.length; i++) {
       var singleTag = arrayOfValues[i];
-      var hashSymbols = singleTag.match(hashTagsValidation.regExpFirstChar);
+      var hashSymbols = singleTag.match(HASH_TAGS_VALIDATION.regExpFirstChar);
 
-      var isValid = singleTag.charAt(0) === hashTagsValidation.firstChar && (hashSymbols && hashSymbols.length === 1) && singleTag.length <= hashTagsValidation.maxOneTagLength;
+      var isValid = singleTag.charAt(0) === HASH_TAGS_VALIDATION.firstChar && (hashSymbols && hashSymbols.length === 1) && singleTag.length <= HASH_TAGS_VALIDATION.maxOneTagLength;
 
       if (!isValid) {
         window.tools.setInvalidClass(hashTagInput);
@@ -315,11 +315,11 @@
     if (!window.tools.isUniqElementsInArray(arrayOfValues)) {
       window.tools.setInvalidClass(hashTagInput);
     }
-    if (arrayOfValues.length > hashTagsValidation.maxTagsAmount) {
+    if (arrayOfValues.length > HASH_TAGS_VALIDATION.maxTagsAmount) {
       window.tools.setInvalidClass(hashTagInput);
     }
     if (window.tools.checkInvalidClass(hashTagInput)) {
-      hashTagInput.setCustomValidity(hashTagsValidation.errorMessage);
+      hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.errorMessage);
     }
   }
 
@@ -337,8 +337,8 @@
   // Проверка на минимальную длину комментария (т.к. EDGE не поддерживает minlength)
   function checkMinLength() {
     var string = uploadComment.value;
-    if (string.length < commentValidation.minLength) {
-      uploadComment.setCustomValidity(commentValidation.minLengthMessage);
+    if (string.length < COMMENT_VALIDATION.minLength) {
+      uploadComment.setCustomValidity(COMMENT_VALIDATION.minLengthMessage);
     }
   }
 

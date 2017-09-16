@@ -6,7 +6,7 @@ window.tools = (function () {
     enter: 13
   };
 
-  var parameters = {
+  var TIME_PARAMETERS = {
     debounceInterval: 500,
     timeoutForMessage: 5000
   };
@@ -96,7 +96,7 @@ window.tools = (function () {
 
     setTimeout(function () {
       removeErrorMessage();
-    }, parameters.timeoutForMessage);
+    }, TIME_PARAMETERS.timeoutForMessage);
   }
 
   // Скрытие сообщения
@@ -110,7 +110,7 @@ window.tools = (function () {
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
-    lastTimeout = window.setTimeout(callback, parameters.debounceInterval);
+    lastTimeout = window.setTimeout(callback, TIME_PARAMETERS.debounceInterval);
   }
 
   // Экспорт
