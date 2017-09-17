@@ -6,7 +6,7 @@ window.tools = (function () {
     enter: 13
   };
 
-  var parameters = {
+  var TIME_PARAMETERS = {
     debounceInterval: 500,
     timeoutForMessage: 5000
   };
@@ -21,18 +21,6 @@ window.tools = (function () {
   // Генерация случайного числа, округленного до ближайшего целого
   function getRandomRoundNumber(min, max) {
     return Math.round(getRandomNumber(min, max));
-  }
-
-  // Нахождение наибольшего значения в массиве
-  function getMaxValue(array) {
-    var maxValue = -1;
-    for (var i = 0; i < array.length; i++) {
-      var currValue = array[i];
-      if (currValue > maxValue) {
-        maxValue = currValue;
-      }
-    }
-    return maxValue;
   }
 
   // Возвращает случайный элемент массива
@@ -96,7 +84,7 @@ window.tools = (function () {
 
     setTimeout(function () {
       removeErrorMessage();
-    }, parameters.timeoutForMessage);
+    }, TIME_PARAMETERS.timeoutForMessage);
   }
 
   // Скрытие сообщения
@@ -110,14 +98,13 @@ window.tools = (function () {
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
-    lastTimeout = window.setTimeout(callback, parameters.debounceInterval);
+    lastTimeout = window.setTimeout(callback, TIME_PARAMETERS.debounceInterval);
   }
 
   // Экспорт
   return {
     getRandomNumber: getRandomNumber,
     getRandomRoundNumber: getRandomRoundNumber,
-    getMaxValue: getMaxValue,
     getRandomValueOfArray: getRandomValueOfArray,
     isSecondTen: isSecondTen,
     isUniqElementsInArray: isUniqElementsInArray,

@@ -42,7 +42,7 @@ window.gallery = (function () {
   }
 
   // Клик на крестике галереи
-  function onCloseCrossClick(event) {
+  function onCloseCrossClick() {
     galleryClose();
   }
 
@@ -68,7 +68,7 @@ window.gallery = (function () {
   function addPhotosToDom(data) {
     var listOfPhotos = window.picture.createListOfPhotos(data);
     photoContainer.appendChild(listOfPhotos);
-    window.sorting.showSortingForm(data);
+    window.sorting.showForm(data);
   }
 
   // Выполнение скрипта

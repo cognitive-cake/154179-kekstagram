@@ -8,17 +8,17 @@ window.backend = (function () {
     xhr.responseType = 'json';
     xhr.timeout = 10000;
 
-    xhr.addEventListener('load', function (event) {
+    xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
         onError('Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
-    xhr.addEventListener('error', function (eventError) {
+    xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
-    xhr.addEventListener('timeout', function (eventTimeout) {
+    xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
@@ -39,10 +39,10 @@ window.backend = (function () {
         onError('Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
-    xhr.addEventListener('error', function (eventError) {
+    xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
-    xhr.addEventListener('timeout', function (eventTimeout) {
+    xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 

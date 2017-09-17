@@ -1,16 +1,14 @@
 'use strict';
 
 window.sorting = (function () {
-  var param = {
-    labelClass: 'filters-item',
-  };
   var photoData = [];
+  var filterClass = 'filters-item';
 
   var photoContainer = document.querySelector('.pictures');
   var sortingForm = document.querySelector('.filters');
 
   // Показ фильтров
-  function showSortingForm(data) {
+  function showForm(data) {
     photoData = data;
     sortingForm.classList.remove('hidden');
     sortingForm.addEventListener('click', onSortingClick);
@@ -20,7 +18,7 @@ window.sorting = (function () {
   function onSortingClick(event) {
     var clickTarget = event.target;
     while (clickTarget !== sortingForm) {
-      if (clickTarget.classList.contains(param.labelClass)) {
+      if (clickTarget.classList.contains(filterClass)) {
         var sortName = clickTarget.getAttribute('for');
         sortPhotos(sortName);
         break;
@@ -93,6 +91,6 @@ window.sorting = (function () {
 
   // Экспорт
   return {
-    showSortingForm: showSortingForm
+    showForm: showForm
   };
 })();
