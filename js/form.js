@@ -298,15 +298,23 @@
     checkHashTagsValidity();
   }
 
-  // Валидация строки с хэш-тегами
-  function checkHashTagsValidity() {
-    var arrayOfValues = hashTagInput.value.split(HASH_TAGS_VALIDATION.separator);
-    if (arrayOfValues[0] === '') {
-      return;
-    }
-    arrayOfValues = arrayOfValues.filter(function (it) {
+  // Чистка хэш-тегов от лишних пробелов
+  function trimHashTags(array) {
+    array = array.filter(function (it) {
       return it !== '';
     });
+    hashTagInput.value = array.join(HASH_TAGS_VALIDATION.separator);
+    return array;
+  }
+
+  // Валидация строки с хэш-тегами
+  function checkHashTagsValidity() {
+    var rawArray = hashTagInput.value.split(HASH_TAGS_VALIDATION.separator);
+    var arrayOfValues = trimHashTags(rawArray);
+    if (arrayOfValues.length === 0) {
+      return;
+    }
+
     arrayOfValues.forEach(function (it) {
       var hashSymbols = it.match(HASH_TAGS_VALIDATION.regExpFirstChar);
 
