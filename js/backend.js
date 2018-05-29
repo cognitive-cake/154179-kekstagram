@@ -23,7 +23,7 @@ window.backend = (function () {
     });
 
 
-    xhr.open('GET', 'https://1510.dump.academy/kekstagram/data');
+    xhr.open('GET', 'https://dry-scrubland-68037.herokuapp.com/json/kekstagram-data.json');
     xhr.send();
   }
 
@@ -46,7 +46,7 @@ window.backend = (function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.open('POST', 'https://1510.dump.academy/kekstagram');
+    xhr.open('POST', 'https://dry-scrubland-68037.herokuapp.com');
     xhr.send(data);
   }
 
