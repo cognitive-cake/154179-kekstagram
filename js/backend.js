@@ -30,7 +30,7 @@ window.backend = (function () {
   // Отправка данных на сервер
   function save(data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.timeout = 10000;
+    xhr.timeout = 50000;
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
